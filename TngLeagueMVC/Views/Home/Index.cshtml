@@ -1,0 +1,206 @@
+﻿@model TngLeague.Domain.ThanhVien
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="app">
+
+
+    <div class="input-field" style="position: relative;">
+        <div class="dropdown-wrapper" v-on:click ="toggleDropdown">
+            <div class="selected-option valign-wrapper z-depth-1" style="padding: 10px; border-radius: 5px; cursor: pointer;">
+                <img :src="selected.image" alt="" width="32" height="32" class="circle" style="margin-right: 10px;">
+                <span>{{ selected.name }}</span>
+                <i class="material-icons right" style="margin-left: auto;">arrow_drop_down</i>
+            </div>
+        </div>
+
+        <ul v-show="dropdownOpen" class="dropdown-content z-depth-2" style="position: absolute; top: 60px; left: 0; right: 0; background: white; max-height: 200px; overflow-y: auto;">
+            <li v-for="option in options" :key="option.id" v-on:click="selectOption(option)" class="valign-wrapper" style="padding: 10px; cursor: pointer;">
+                <img :src="option.image" alt="" width="32" height="32" class="circle" style="margin-right: 10px;">
+                <span>{{ option.name }}</span>
+            </li>
+        </ul>
+    </div>
+
+
+ @*    <div class="container">
+        <h5>Thêm Thành Viên</h5>
+        <form id="formThanhVien">
+            <div class="input-field">
+
+                <input id="tenThiDau" asp-for="TenThiDau" type="text" />
+                <label for="tenThiDau" class="active">Tên Thi Đấu *</label>
+                <span asp-validation-for="TenThiDau" class="red-text"></span>
+            </div>
+
+
+            <div class="input-field">
+                <input id="hoTen" asp-for="HoTen" type="text" />
+                <label for="hoTen">Họ Tên</label>
+                <span asp-validation-for="HoTen" class="red-text"></span>
+            </div>
+
+
+            <div class="input-field">
+                <input id="soAo" asp-for="SoAo" type="number" min="0" />
+                <label for="soAo">Số Áo</label>
+                <span asp-validation-for="SoAo" class="red-text"></span>
+            </div>
+
+
+            <div class="input-field">
+                <input id="ngaySinh" asp-for="NgaySinh" type="date" />
+                <label for="ngaySinh" class="active">Ngày Sinh</label>
+                <span asp-validation-for="NgaySinh" class="red-text"></span>
+            </div>
+
+
+            <div class="input-field">
+                <input id="email" asp-for="Email" />
+                <label for="email">Email</label>
+                <span asp-validation-for="Email" class="red-text"></span>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit">
+                Thêm <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Collapsible with Vue functionality -->
+    <ul class="collapsible expandable">
+        <li>
+            <div class="collapsible-header" onclick="toggleCollapsible(this)"><i class="material-icons">expand_more</i>Danh sách sản phẩm</div>
+            <div class="collapsible-body">
+                <table class="highlight striped responsive-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Product Information</th>
+                            <th>Price</th>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in products" :key="index">
+                            <td><input v-model="item.id" type="number" /></td>
+                            <td><input v-model="item.name" type="text" /></td>
+                            <td><input v-model="item.price" type="text" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a v-on:click="addRow" class="waves-effect waves-light btn">Add Product</a>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header" onclick="toggleCollapsible(this)"><i class="material-icons">expand_more</i>Danh sách B</div>
+            <div class="collapsible-body">
+                Some other content
+            </div>
+        </li>
+    </ul>
+
+    <!-- Link to trigger the modal -->
+    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" v-on:click ="openModal">
+        <i class="material-icons">{{ modalIcon }}</i> Modal
+    </a>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal" v-show="isModalOpen">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" v-on:click="closeModal">Agree</a>
+        </div>
+    </div> *@
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    const { createApp, ref, onMounted } = Vue;
+    function toggleCollapsible(header) {
+        const icon = header.querySelector('i');
+        const body = header.nextElementSibling;
+        // Kiểm tra trạng thái của collapsible và thay đổi icon
+        if (body.style.display === 'block') {
+          icon.textContent = 'expand_more';  // Khi đóng lại
+        } else {
+          icon.textContent = 'expand_less';  // Khi mở ra
+        }
+      }
+    const app = createApp({
+        setup() {
+            const products = ref([
+                { id: 1, name: 'Laptop', price: '$1000' },
+                { id: 2, name: 'Phone', price: '$500' },
+                { id: 3, name: 'Tablet', price: '$300' },
+            ]);
+
+            const nextId = ref(4);
+
+            const addRow = () => {
+                products.value.push({
+                    id: nextId.value,
+                    name: '',
+                    price: ''
+                });
+                nextId.value++;
+            };
+
+            const dropdownOpen = ref(false);
+            const selected = ref({
+              id: 1,
+              name: 'Lionel Messi',
+              image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg'
+            });
+
+            const options = ref([
+              { id: 1, name: 'Lionel Messi', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
+              { id: 2, name: 'Cristiano Ronaldo', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
+              { id: 3, name: 'Kylian Mbappé', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
+            ]);
+
+            const toggleDropdown = () => {
+              dropdownOpen.value = !dropdownOpen.value;
+            };
+
+            const selectOption = (option) => {
+              selected.value = option;
+              dropdownOpen.value = false;
+            };
+
+
+            onMounted(() => {
+                M.Collapsible.init(document.querySelectorAll('.collapsible'),{
+                  accordion: false
+                });
+
+                const elems = document.querySelectorAll('.modal');
+                // Khởi tạo modal với các tùy chọn mặc định (nếu cần)
+                const instances = M.Modal.init(elems, {
+                  // Các tùy chọn có thể thêm vào nếu cần
+                  // Example: startingTop: '4%', endingTop: '10%'
+                });
+
+            });
+
+            return { addRow, products, selected, options, dropdownOpen, toggleDropdown, selectOption };
+        }
+    });
+
+    app.mount('#app');
+
+    
+</script>

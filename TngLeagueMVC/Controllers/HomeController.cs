@@ -14,17 +14,18 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index(ThanhVien thanhVien)
+    public IActionResult Index()
+    {
+        
+        return View();
+    }
+
+    public IActionResult Privacy(ThanhVien thanhVien)
     {
         if (!ModelState.IsValid)
         {
             return View(thanhVien);
         }
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
         return View();
     }
 

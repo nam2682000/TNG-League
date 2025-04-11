@@ -1,22 +1,91 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+body {}
+
+.table-header {
+    background-color: var(--bacground-color);
 }
+
+.sidenav li>a {
+    color: var(--text-color) !important;
+}
+
+.tabs .indicator {
+    background-color: var(--bacground-color);
+    /* màu bạn thích, ví dụ teal */
+}
+
+.tabs .tab a {
+    color: rgba(25, 24, 33, 0.7);
+}
+
+.tabs .tab a:hover,
+.tabs .tab a.active {
+    background-color: #3e189400;
+    color: var(--bacground-color);
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d2d3d4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-text {
+    padding: 3px;
+}
+
+.logo-top {
+    width: 25px;
+    height: 100%;
+}
+
+.name-top {
+    width: 69% !important;
+}
+
+.avatar-top {
+    width: 35px;
+    height: 35px;
+}
+
+@media only screen and (max-width: 992px) {
+    .logo-desktop {
+        display: none !important;
+    }
+
+    .mobile-avatar {
+        width: 35px;
+        height: 35px;
+    }
+
+    .row .col {
+        padding: 0 .3rem;
+    }
+
+    .mobile-text {
+        font-size: 12px;
+    }
+
+    .mobile-ti-so {
+        width: 20% !important;
+    }
+}
+
+/*start style tong quan */

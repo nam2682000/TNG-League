@@ -1,206 +1,433 @@
-﻿@model TngLeague.Domain.ThanhVien
-@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<style>
+    /* css grid */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+    }
 
-<div id="app">
+    .card-custom {
+        padding: 12px;
+        color: #fff;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 120px;
+    }
+
+    .card-custom.double-height {
+        grid-row: span 2;
+        min-height: 270px;
+    }
+
+    .card-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: 0.3s ease;
+    }
+
+    .card-custom.double-width {
+        grid-column: span 2;
+    }
+
+    .bg-blue {
+        background: #67809f;
+    }
+
+    .bg-yellow {
+        background: #f1c40f;
+    }
+
+    .bg-purple {
+        background: #8e44ad;
+    }
+
+    .bg-red {
+        background: #e74c3c;
+    }
+
+    .bg-gray {
+        background: #95a5a6;
+    }
+
+    .bg-green {
+        background: #1abc9c;
+    }
+
+    .bg-lightblue {
+        background: #3498db;
+    }
+
+    .card-custom img {
+        max-height: 40px;
+        width: 40px;
+        margin: auto;
+    }
+
+    strong {
+        font-size: 20px;
+        margin-top: 5px;
+        display: block;
+    }
 
 
-    <div class="input-field" style="position: relative;">
-        <div class="dropdown-wrapper" v-on:click ="toggleDropdown">
-            <div class="selected-option valign-wrapper z-depth-1" style="padding: 10px; border-radius: 5px; cursor: pointer;">
-                <img :src="selected.image" alt="" width="32" height="32" class="circle" style="margin-right: 10px;">
-                <span>{{ selected.name }}</span>
-                <i class="material-icons right" style="margin-left: auto;">arrow_drop_down</i>
+    @@media (max-width: 600px) {
+        .card-custom.double-width {
+            grid-column: span 1 !important;
+        }
+
+        .card-custom.double-height {
+            grid-row: span 1 !important;
+            min-height: 135px !important;
+        }
+    }
+
+
+
+    /* end css grid */
+
+
+    .card-panel {
+        margin: .5rem 0 0 0 !important;
+    }
+
+    .custom-link {
+        color: #1565c0;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .custom-link:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .collection {
+        margin: 0 0 1rem 0;
+    }
+
+    li.collection-item.custom-item {
+        padding: 3px 0px;
+    }
+
+    li.collection-item {
+        padding: 5px 10px;
+    }
+
+    .avatar-round {
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #d2d3d4;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        width: 35px;
+        height: 35px;
+    }
+
+    .badge-custom {
+        min-width: 3rem;
+        padding: 0 6px;
+        text-align: center;
+        font-size: 1rem;
+        line-height: 22px;
+        height: 22px;
+        color: white;
+        float: right;
+        border-radius: 0px 15px 0px 0px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        background-color: #2196F3;
+        min-width: 9rem;
+    }
+
+
+    td,
+    th {
+        border-radius: 0px !important;
+    }
+
+    /* End */
+</style>
+<div id="homeIndex">
+    <div class="row pt-3">
+
+        @* content trái *@
+        <div class="col s12 m4 l4">
+            @* Top ghi bàn *@
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge-custom">Top ghi bàn</span>
+                    <a class="custom-link">Xem tất cả</a>
+                </div>
+
+                <div>
+                    <ul class="collection">
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/1.png" />
+                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Dương Văn Nam(09)</p>
+                                    <p>21 bàn</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/2.png" />
+                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Dương Văn Nam(09)</p>
+                                    <p>15 bàn</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/3.png" />
+                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Dương Văn Nam(09)</p>
+                                    <p>14 bàn</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            @* Top dẫn đầu *@
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge-custom">Top đội dẫn đầu</span>
+                    <a class="custom-link">Xem tất cả</a>
+                </div>
+
+                <div>
+                    <ul class="collection">
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/1.png" />
+                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Phú Bình 1 </p>
+                                    <p>21 điểm </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/2.png" />
+                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Sông Công</p>
+                                    <p>19 điểm </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <img class="logo-top" src="../images/3.png" />
+                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <div class="name-top d-flex justify-content-between">
+                                    <p>Điềm Thụy </p>
+                                    <p>15 điểm </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            @* Lịch theo vòng đấu *@
+            <div>
+                <div class="input-field">
+                    <select>
+                        <option value="1">Vòng 1</option>
+                        <option value="2">Vòng 2</option>
+                        <option value="3">Vòng 3</option>
+                    </select>
+                    <label>Chọn vòng đấu</label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge-custom">Vòng 1</span>
+                    <a class="custom-link">Xem tất cả</a>
+                </div>
+
+                <div>
+                    <ul class="collection">
+                        <li class="collection-item custom-item">
+                            <div class="row valign-wrapper">
+                                <div class="col s5">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <p class="mobile-text">Đại Từ</p>
+                                        <img class="avatar-round" src="../images/MU.png">
+                                    </div>
+                                </div>
+                                <div class="col s2 center-align border mobile-ti-so">
+                                    <h6>1-2</h5>
+                                        <label>15:30 24/05</label>
+                                </div>
+                                <div class="col s5 left-align">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <img class="avatar-round" src="../images/MU.png">
+                                        <p class="mobile-text">Phú Bình 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <ul v-show="dropdownOpen" class="dropdown-content z-depth-2" style="position: absolute; top: 60px; left: 0; right: 0; background: white; max-height: 200px; overflow-y: auto;">
-            <li v-for="option in options" :key="option.id" v-on:click="selectOption(option)" class="valign-wrapper" style="padding: 10px; cursor: pointer;">
-                <img :src="option.image" alt="" width="32" height="32" class="circle" style="margin-right: 10px;">
-                <span>{{ option.name }}</span>
-            </li>
-        </ul>
+        @* content phải *@
+        <div class="col s12 m8 l8">
+            @* Grid *@
+            <div class="grid">
+                <div class="card-custom bg-blue double-height">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" />
+                    <div>Số vận động viên tham dự giải đấu<br><strong>276</strong></div>
+                </div>
+
+                <div class="card-custom bg-yellow">
+                    <img src="../images//one_goal.svg" />
+                    <div>Số bàn ghi được<br><strong>133</strong></div>
+                </div>
+
+                <div class="card-custom bg-purple">
+                    <img src="../images//phanLuoiNha.png" />
+                    <div>Số bàn phản lưới nhà<br><strong>3</strong></div>
+                </div>
+
+                <div class="card-custom bg-gray">
+                    <img src="../images//tongTranDau.png" />
+                    <div>Tổng số trận đấu<br><strong>32</strong></div>
+                </div>
+
+                <div class="card-custom bg-lightblue">
+                    <img src="../images//tongThePhat.svg" />
+                    <div>Tổng số thẻ phạt<br><strong>47</strong></div>
+                </div>
+
+                <div class="card-custom double-width bg-green">
+                    <div>Trận có nhiều bàn nhất<br>
+                        <strong>Fc Thanh Thuỷ<br>17 - 1<br>FC Rebels</strong>
+                        <p>
+                            16/03/2025 - Vòng 1
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-custom bg-green">
+                    <div>Đội ghi nhiều bàn nhất<br><strong>Fc Thanh Thuỷ - 22</strong></div>
+                </div>
+
+                <div class="card-custom bg-purple">
+                    <div>Đội nhiều thẻ phạt nhất<br><strong>FC Minh Sơn - 6</strong></div>
+                </div>
+
+
+                <div class="card-custom bg-yellow">
+                    <div>Cầu thủ nhiều thẻ phạt nhất<br><strong>Tuấn Coca (09) - 2</strong></div>
+                </div>
+                <div class="card-custom double-width bg-gray">
+                    <div>Trận có nhiều thẻ phạt nhất<br>
+                        <strong>HLU FC<br>0 - 2<br>DLAP SPORT</strong>
+                        <p>30/03/2025 - Vòng 3
+                        <p>
+                    </div>
+                </div>
+
+                <div class="card-custom bg-lightblue">
+                    <img src="../images//theVang.png" />
+                    <div>Tổng số thẻ vàng<br><strong>43</strong></div>
+                </div>
+
+                <div class="card-custom bg-blue">
+                    <img src="../images/theDo.png" />
+                    <div>Tổng số thẻ đỏ<br><strong>4</strong></div>
+                </div>
+            </div>
+
+            <!-- Table trận đấu gần đây nhất -->
+            <table class="highlight striped mt-3">
+                <thead>
+                    <tr class="table-header white-text">
+                        <th class="center-align">🔥SẮP DIỄN RA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="row valign-wrapper">
+                                <div class="col s5">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <p class="mobile-text">FC Minh Sơn</p>
+                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                    </div>
+                                </div>
+                                <div class="col s2 center-align border mobile-ti-so">
+                                    <h5>VS</h5>
+                                    <p class="mobile-text">15:30 24/05</p>
+                                </div>
+                                <div class="col s5 left-align">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <p class="mobile-text">FC Minh Sơn</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Table trận đấu sắp diễn ra -->
+
+            <table class="highlight striped mt-3">
+                <thead>
+                    <tr class="table-header white-text">
+                        <th class="center-align">🏁GẦN ĐÂY NHẤT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="row valign-wrapper">
+                                <div class="col s5">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <p class="mobile-text">FC Minh Sơn</p>
+                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                    </div>
+                                </div>
+                                <div class="col s2 center-align border mobile-ti-so">
+                                    <h5>1-2</h5>
+                                    <p class="mobile-text">15:30 24/05</p>
+                                </div>
+                                <div class="col s5 left-align">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <p class="mobile-text">FC Minh Sơn</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
- @*    <div class="container">
-        <h5>Thêm Thành Viên</h5>
-        <form id="formThanhVien">
-            <div class="input-field">
-
-                <input id="tenThiDau" asp-for="TenThiDau" type="text" />
-                <label for="tenThiDau" class="active">Tên Thi Đấu *</label>
-                <span asp-validation-for="TenThiDau" class="red-text"></span>
-            </div>
-
-
-            <div class="input-field">
-                <input id="hoTen" asp-for="HoTen" type="text" />
-                <label for="hoTen">Họ Tên</label>
-                <span asp-validation-for="HoTen" class="red-text"></span>
-            </div>
-
-
-            <div class="input-field">
-                <input id="soAo" asp-for="SoAo" type="number" min="0" />
-                <label for="soAo">Số Áo</label>
-                <span asp-validation-for="SoAo" class="red-text"></span>
-            </div>
-
-
-            <div class="input-field">
-                <input id="ngaySinh" asp-for="NgaySinh" type="date" />
-                <label for="ngaySinh" class="active">Ngày Sinh</label>
-                <span asp-validation-for="NgaySinh" class="red-text"></span>
-            </div>
-
-
-            <div class="input-field">
-                <input id="email" asp-for="Email" />
-                <label for="email">Email</label>
-                <span asp-validation-for="Email" class="red-text"></span>
-            </div>
-
-            <button class="btn waves-effect waves-light" type="submit">
-                Thêm <i class="material-icons right">send</i>
-            </button>
-        </form>
-    </div>
-
-    <!-- Collapsible with Vue functionality -->
-    <ul class="collapsible expandable">
-        <li>
-            <div class="collapsible-header" onclick="toggleCollapsible(this)"><i class="material-icons">expand_more</i>Danh sách sản phẩm</div>
-            <div class="collapsible-body">
-                <table class="highlight striped responsive-table">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Product Information</th>
-                            <th>Price</th>
-                        </tr>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in products" :key="index">
-                            <td><input v-model="item.id" type="number" /></td>
-                            <td><input v-model="item.name" type="text" /></td>
-                            <td><input v-model="item.price" type="text" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <a v-on:click="addRow" class="waves-effect waves-light btn">Add Product</a>
-            </div>
-        </li>
-        <li>
-            <div class="collapsible-header" onclick="toggleCollapsible(this)"><i class="material-icons">expand_more</i>Danh sách B</div>
-            <div class="collapsible-body">
-                Some other content
-            </div>
-        </li>
-    </ul>
-
-    <!-- Link to trigger the modal -->
-    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" v-on:click ="openModal">
-        <i class="material-icons">{{ modalIcon }}</i> Modal
-    </a>
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal" v-show="isModalOpen">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat" v-on:click="closeModal">Agree</a>
-        </div>
-    </div> *@
-
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
 <script>
-    const { createApp, ref, onMounted } = Vue;
-    function toggleCollapsible(header) {
-        const icon = header.querySelector('i');
-        const body = header.nextElementSibling;
-        // Kiểm tra trạng thái của collapsible và thay đổi icon
-        if (body.style.display === 'block') {
-          icon.textContent = 'expand_more';  // Khi đóng lại
-        } else {
-          icon.textContent = 'expand_less';  // Khi mở ra
-        }
-      }
-    const app = createApp({
-        setup() {
-            const products = ref([
-                { id: 1, name: 'Laptop', price: '$1000' },
-                { id: 2, name: 'Phone', price: '$500' },
-                { id: 3, name: 'Tablet', price: '$300' },
-            ]);
-
-            const nextId = ref(4);
-
-            const addRow = () => {
-                products.value.push({
-                    id: nextId.value,
-                    name: '',
-                    price: ''
-                });
-                nextId.value++;
-            };
-
-            const dropdownOpen = ref(false);
-            const selected = ref({
-              id: 1,
-              name: 'Lionel Messi',
-              image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg'
-            });
-
-            const options = ref([
-              { id: 1, name: 'Lionel Messi', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
-              { id: 2, name: 'Cristiano Ronaldo', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
-              { id: 3, name: 'Kylian Mbappé', image: 'https://upload.wikimedia.org/wikipedia/en/c/c1/Atletico_Madrid_logo.svg' },
-            ]);
-
-            const toggleDropdown = () => {
-              dropdownOpen.value = !dropdownOpen.value;
-            };
-
-            const selectOption = (option) => {
-              selected.value = option;
-              dropdownOpen.value = false;
-            };
-
-
-            onMounted(() => {
-                M.Collapsible.init(document.querySelectorAll('.collapsible'),{
-                  accordion: false
-                });
-
-                const elems = document.querySelectorAll('.modal');
-                // Khởi tạo modal với các tùy chọn mặc định (nếu cần)
-                const instances = M.Modal.init(elems, {
-                  // Các tùy chọn có thể thêm vào nếu cần
-                  // Example: startingTop: '4%', endingTop: '10%'
-                });
-
-            });
-
-            return { addRow, products, selected, options, dropdownOpen, toggleDropdown, selectOption };
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, {});
+        var selects = document.querySelectorAll('select');
+        var instancesSelects = M.FormSelect.init(selects, {});
     });
-
-    app.mount('#app');
-
-    
 </script>

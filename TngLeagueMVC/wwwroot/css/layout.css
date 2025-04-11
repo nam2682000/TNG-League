@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --text-color: #dadada;
+    --bacground-color: #2241ff;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.site {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
+}
+
+td,
+th {
+    padding: 10px 5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    margin: 0px !important;
+}
+
+/* Menu css */
+nav {
+    background: var(--bacground-color);
+    box-shadow: unset;
+    -webkit-box-shadow: unset;
+}
+
+#navMenu {
+    height: 30px !important;
+    line-height: 30px !important;
+}
+
+#navTop {
+    padding-top: 10px;
+    height: 270px !important;
+    line-height: 270px !important;
+}
+
+.foodter-background {
+    background-color: var(--bacground-color);
+}
+
+.bg-section {
+    background-image: url('../images//nen-new.jpg');
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 270px;
+    color: white;
+}
+
+ul#mobile-demo {
+    padding-top: 3rem;
+    background-color: var(--bacground-color);
+}
+
+ul.left.hide-on-med-and-down {
+    padding-left: .75rem;
+}
+
+nav .sidenav-trigger i {
+    height: 30px !important;
+    line-height: 30px !important;
+    font-size: 2.3rem;
+}
+
+.sidenav {
+    width: 220px;
+}
+
+.sidenav li>a {
+    color: var(--text-color) !important;
+}
+
+nav .brand-logo {
+    font-size: 1rem;
+    padding: 0 .75rem;
+}
+
+header {
+    max-height: 300px;
+}
+
+
+.logo-mobile {
+    padding-right: 8rem !important;
+}
+
+/* Responsive */
+@media only screen and (max-width: 992px) {
+    .logo-mobile {
+        left: 8.5rem !important;
+    }
+
+    nav .brand-logo.left {
+        left: 5.5rem;
+    }
+
+    .row .col {
+        padding: 0 .3rem;
+    }
+}

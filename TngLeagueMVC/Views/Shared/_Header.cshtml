@@ -1,0 +1,125 @@
+﻿<style>
+    #navMenu {
+        height: 30px !important;
+        line-height: 30px !important;
+    }
+
+    #navTop {
+        padding-top: 10px;
+        height: 270px !important;
+        line-height: 270px !important;
+    }
+
+    .foodter-background {
+        background-color: var(--bacground-color);
+    }
+
+    .bg-section {
+        background-image: url('../images//nen-new.jpg');
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 270px;
+        color: white;
+    }
+
+    ul#mobile-demo {
+        padding-top: 3rem;
+        background-color: var(--bacground-color);
+    }
+
+    ul.left.hide-on-med-and-down {
+        padding-left: .75rem;
+    }
+
+    nav .sidenav-trigger i {
+        height: 30px !important;
+        line-height: 30px !important;
+        font-size: 2.3rem;
+    }
+
+    .nav-active {
+        background-color: #0f3075;
+    }
+
+    .sidenav li>a {
+        color: var(--text-color) !important;
+    }
+
+    nav .brand-logo {
+        font-size: 1rem;
+        padding: 0 .75rem;
+    }
+
+    header {
+        max-height: 300px;
+    }
+
+    .sidenav {
+        width: 220px;
+    }
+
+    .btn-chon-giai {
+        height: 26px;
+        line-height: 26px;
+        margin-top: 3px;
+        font-size: 0.7rem !important;
+        padding: 0px 10px !important;
+    }
+
+    @@media only screen and (max-width: 992px) {
+        .logo-desktop {
+            display: none !important;
+        }
+
+        .logo-mobile {
+            left: 8.5rem !important;
+        }
+
+    }
+</style>
+<header>
+    <div class="">
+        <nav id="navTop" class="bg-section">
+            <div class="nav-wrapper container">
+            </div>
+        </nav>
+        <nav id="navMenu">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo right logo-mobile">GIẢI ĐÁ BÓNG NAM</a>
+                <a href="#" class="brand-logo right btn btn-chon-giai">Chọn giải</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="left hide-on-med-and-down">
+                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "nav-active" : "")">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">TỔNG QUAN</a></li>
+                    <li
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "LichThiDau" ? "nav-active" : "")">
+                        <a asp-area="" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a></li>
+                    <li
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "XepHang" ? "nav-active" : "")">
+                        <a asp-area="" asp-controller="XepHang" asp-action="Index">XẾP HẠNG</a></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Doi" ? "nav-active" : "")">
+                        <a asp-area="" asp-controller="Doi" asp-action="Index">ĐỘI</a></li>
+                    <li
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "DieuLe" ? "nav-active" : "")">
+                        <a asp-area="" asp-controller="DieuLe" asp-action="Index">ĐIỀU LỆ</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- mobile -->
+        <ul class="sidenav" id="mobile-demo">
+            <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "nav-active" : "")"><a
+                    asp-area="" asp-controller="Home" asp-action="Index">TỔNG QUAN</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "LichThiDau" ? "nav-active" : "")"><a
+                    asp-area="" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "XepHang" ? "nav-active" : "")"><a
+                    asp-area="" asp-controller="XepHang" asp-action="Index">XẾP HẠNG</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Doi" ? "nav-active" : "")"><a
+                    asp-area="" asp-controller="Doi" asp-action="Index">ĐỘI</a></li>
+            <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "DieuLe" ? "nav-active" : "")"><a
+                    asp-area="" asp-controller="DieuLe" asp-action="Index">ĐIỀU LỆ</a></li>
+        </ul>
+    </div>
+</header>

@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 using TngLeague.Domain.Entities;
 namespace TngLeague.Domain;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options): base(options){}
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     public DbSet<ThanhVien> ThanhViens { get; set; }
     public DbSet<ThanhVienGiaiDau> ThanhVienGiaiDaus { get; set; }
     public DbSet<VaiTro> VaiTros { get; set; }

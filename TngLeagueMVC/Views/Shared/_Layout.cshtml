@@ -1,78 +1,41 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TngLeagueMVC</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TngLeagueMVC.styles.css" asp-append-version="true" />
 
-    
-
-    <script src="~/js/vue.global.js"></script>
-    <!-- Thêm Materialize CSS từ CDN -->
     <link href="~/lib/materialize/css/materialize.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Thêm Materialize JS từ CDN -->
+    <link rel="stylesheet" href="~/css/common.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+
+    <script src="~/js/vue.global.js"></script>
     <script src="~/lib/materialize/js/materialize.min.js"></script>
-
-
-    
 </head>
+
 <body>
-    <header>
-        <!-- Navbar -->
-        <nav class="black">
-            <div class="nav-wrapper">
-                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a> <!-- Hamburger Menu Icon -->
-                <a href="#" class="brand-logo center">TNG LEAGUE</a> <!-- Logo -->
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <!-- Menu items align to the right -->
-                    <li><a asp-area="" class="active" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- Sidenav for mobile -->
-        <ul class="sidenav" id="mobile-nav">
-            <li><a href="#!">Home</a></li>
-            <li><a href="#!">About</a></li>
-            <li><a href="#!">Services</a></li>
-            <li><a href="#!">Contact</a></li>
-        </ul>
-
-        <!-- Content goes here -->
-        <div class="container">
-            <h1>Welcome to My Website</h1>
-            <p>This is a basic page with a top navbar using Materialize CSS.</p>
-        </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    @await Html.PartialAsync("_Header")
+    <main class="site-content">
+        <div class="pb-3 container">
             @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - TngLeagueMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </main>
+    @await Html.PartialAsync("_Footer")
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-
-    
-
     @await RenderSectionAsync("Scripts", required: false)
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var elems = document.querySelectorAll('.sidenav');
-          M.Sidenav.init(elems);
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
         });
     </script>
 </body>
+
 </html>

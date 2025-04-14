@@ -4,8 +4,9 @@ namespace TngLeague.Web.Controllers
 {
     public class XepHang : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int? tabActive = 1)
         {
+            ViewBag.tabActive = tabActive;
             return View();
         }
     }

@@ -61,21 +61,36 @@
     }
 
     .btn-chon-giai {
-    height: 26px;
-    line-height: 26px;
-    margin-top: 3px;
-    font-size: 0.7rem !important;
-    padding: 0px 10px !important;
+        height: 26px;
+        line-height: 26px;
+        margin-top: 3px;
+        font-size: 0.7rem !important;
+        padding: 0px 10px !important;
     }
 
-    @@media only screen and (max-width: 992px) {
-    .logo-desktop {
-    display: none !important;
+    .btn-dang-xuat{
+        height: 26px;
+        line-height: 26px;
+        font-size: 0.7rem !important;
+        padding: 0px 10px !important;
+        position:absolute;
+        right:-90px;
+        margin-top: 3px;
     }
 
-    .logo-mobile {
-    left: 8.5rem !important;
-    }
+    @@media only screen and (max-width: 992px) 
+    {
+        .logo-desktop {
+            display: none !important;
+        }
+
+        .btn-dang-xuat{
+            display:none;
+        }
+
+        .logo-mobile {
+            left: 8.5rem !important;
+        }
 
     }
 </style>
@@ -91,38 +106,32 @@
         <nav id="navMenu">
             <div class="nav-wrapper container">
                 <a href="#" class="brand-logo right logo-mobile">GIẢI ĐÁ BÓNG NAM</a>
-                <a href="#" class="brand-logo right btn btn-chon-giai">Chọn giải</a>
+                <a href="#" class="brand-logo right btn btn-chon-giai">CHỌN GIẢI</a>
+                <a class="red btn btn-dang-xuat" asp-area="Admin" asp-controller="Auth" asp-action="DangXuat">ĐĂNG XUẤT</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="left hide-on-med-and-down">
-                    <li class="@(controllerName == "Home" ? "nav-active" : "")">
-                        <a asp-area="" asp-controller="Home" asp-action="Index">TỔNG QUAN</a></li>
                     <li
                         class="@(controllerName == "LichThiDau" ? "nav-active" : "")">
-                        <a asp-area="" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a></li>
-                    <li
-                        class="@(controllerName == "XepHang" ? "nav-active" : "")">
-                        <a asp-area="" asp-controller="XepHang" asp-action="Index">XẾP HẠNG</a></li>
+                        <a asp-area="Admin" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a>
+                    </li>
                     <li class="@(controllerName == "Doi" ? "nav-active" : "")">
-                        <a asp-area="" asp-controller="Doi" asp-action="Index">CLUB</a></li>
-                    <li
-                        class="@(controllerName == "DieuLe" ? "nav-active" : "")">
-                        <a asp-area="" asp-controller="DieuLe" asp-action="Index">ĐIỀU LỆ</a></li>
+                        <a asp-area="Admin" asp-controller="Doi" asp-action="Index">CLUB</a>
+                    </li>
                 </ul>
             </div>
         </nav>
 
         <!-- mobile -->
         <ul class="sidenav" id="mobile-demo">
-            <li class="@(controllerName == "Home" ? "nav-active" : "")"><a
-                    asp-area="" asp-controller="Home" asp-action="Index">TỔNG QUAN</a></li>
             <li class="@(controllerName == "LichThiDau" ? "nav-active" : "")"><a
-                    asp-area="" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a></li>
-            <li class="@(controllerName == "XepHang" ? "nav-active" : "")"><a
-                    asp-area="" asp-controller="XepHang" asp-action="Index">XẾP HẠNG</a></li>
+                asp-area="Admin" asp-controller="LichThiDau" asp-action="Index">LỊCH THI ĐẤU</a>
+            </li>
             <li class="@(controllerName == "Doi" ? "nav-active" : "")"><a
-                    asp-area="" asp-controller="Doi" asp-action="Index">CLUB</a></li>
-            <li class="@(controllerName == "DieuLe" ? "nav-active" : "")"><a
-                    asp-area="" asp-controller="DieuLe" asp-action="Index">ĐIỀU LỆ</a></li>
+                asp-area="Admin" asp-controller="Doi" asp-action="Index">CLUB</a>
+            </li>
+            <li class="@(controllerName == "Doi" ? "nav-active" : "")">
+                <a asp-area="Admin" asp-controller="Auth" asp-action="DangXuat">ĐĂNG XUẤT</a>
+            </li>
         </ul>
     </div>
 </header>

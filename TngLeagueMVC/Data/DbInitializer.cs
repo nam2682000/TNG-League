@@ -46,6 +46,7 @@ public class DbInitializer
             new ViTri{TenViTri = "Thủ môn"},
             new ViTri{TenViTri = "Trọng tài"},
         };
+
         context.VaiTros.AddRange(vaiTro);
         context.ViTris.AddRange(viTri);
         await context.SaveChangesAsync();
@@ -63,7 +64,7 @@ public class DbInitializer
             {
                 UserName = "admin",
                 Email = "nam2682000@gmail.com",
-                EmailConfirmed = true
+                EmailConfirmed = true,
             };
             await userManager.CreateAsync(newAdmin, "Admin@123");
             await userManager.AddToRoleAsync(newAdmin, "Admin");

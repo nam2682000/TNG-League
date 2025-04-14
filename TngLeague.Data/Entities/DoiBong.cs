@@ -13,5 +13,5 @@ public class DoiBong : BaseEntity<int>
     public DateTime NgayThanhLap { get; set; } = DateTime.Now;
     public ICollection<ThanhVienGiaiDau> ThanhVienGiaiDaus { get; set; } = new List<ThanhVienGiaiDau>();
     public int GiaiDauId { get; set; }
-    public GiaiDau GiaiDau { get; set; } = new GiaiDau();
+    public GiaiDau GiaiDau { get; set; } = null!;
 }

@@ -8,7 +8,6 @@ namespace TngLeagueMVC.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
@@ -18,6 +17,14 @@ public class HomeController : Controller
     {
         
         return View();
+    }
+
+    [HttpGet]
+    public async Task<JsonResult> GetProducts()
+    {
+        // Giả sử lấy dữ liệu từ một dịch vụ bất đồng bộ
+        var products = await Task.FromResult(new[] { "Product1", "Product2", "Product3" });
+        return Json(products); // Trả về JSON
     }
 
     public IActionResult Privacy(ThanhVien thanhVien)

@@ -15,5 +15,5 @@ public class ThanhVien : BaseEntity<int>
     [EmailAddress(ErrorMessage = "Email không hợp lệ")]
     public string Email { get; set; } = string.Empty;
     public int DoiBongId { get; set; }
-    public DoiBong DoiBongs { get; set; } = new DoiBong();
+    public DoiBong DoiBongs { get; set; } = null!;
 }

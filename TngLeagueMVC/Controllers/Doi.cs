@@ -8,5 +8,10 @@ namespace TngLeague.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult ChiTietDoi(int id)
+        {
+            return View();
+        }
     }
 }

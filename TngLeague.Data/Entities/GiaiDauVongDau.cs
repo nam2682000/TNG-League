@@ -13,7 +13,7 @@ public class GiaiDauVongDau : BaseEntity<int>
 {
     public int VongDauId { get; set; }
     public int GiaiDauId { get; set; }
-    public GiaiDau GiaiDau { get; set; } = new GiaiDau();
-    public VongDau VongDau { get; set; } = new VongDau();
+    public GiaiDau GiaiDau { get; set; } = null!;
+    public VongDau VongDau { get; set; } = null!;
 
 }

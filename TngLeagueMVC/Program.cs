@@ -1,4 +1,5 @@
 using API.Dependency;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -8,6 +9,17 @@ using TngLeague.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // het han sau 30 p
+    options.SlidingExpiration = true; // gia han neu nguoi dung tuong tac
+    options.LoginPath = "/Account/Login"; 
+    options.AccessDeniedPath = "/Account/AccessDenied"; 
+});
 
 var assemblyService = Assembly.Load("TngLeague.Application");
 //builder.Services.DependencyInjection(builder.Configuration, assemblyService);
@@ -48,16 +60,17 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthorization();
-
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();

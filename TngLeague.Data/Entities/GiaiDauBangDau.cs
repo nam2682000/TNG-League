@@ -8,6 +8,6 @@ public class GiaiDauBangDau : BaseEntity<int>
 {
     public int BangDauId { get; set; }
     public int GiaiDauId { get; set; }
-    public GiaiDau GiaiDau { get; set; } = new GiaiDau();
-    public BangDau BangDau { get; set; } = new BangDau();
+    public GiaiDau GiaiDau { get; set; } = null!;
+    public BangDau BangDau { get; set; } = null!;
 }

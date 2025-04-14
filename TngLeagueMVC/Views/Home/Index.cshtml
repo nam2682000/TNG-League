@@ -150,7 +150,7 @@
 
     /* End */
 </style>
-<div id="homeIndex">
+<div id="home_index">
     <div class="row pt-3">
 
         @* content trái *@
@@ -158,16 +158,16 @@
             @* Top ghi bàn *@
             <div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge-custom">Top ghi bàn</span>
-                    <a class="custom-link">Xem tất cả</a>
+                    <span class="badge-custom">Vua phá lưới</span>
+                    <a asp-area="" asp-controller="XepHang" asp-action="Index" asp-route-tabActive="2" class="custom-link">Xem tất cả</a>
                 </div>
 
                 <div>
                     <ul class="collection">
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/1.png" />
-                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/1.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/avt.jpg" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Dương Văn Nam(09)</p>
                                     <p>21 bàn</p>
@@ -176,8 +176,8 @@
                         </li>
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/2.png" />
-                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/2.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/avt.jpg" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Dương Văn Nam(09)</p>
                                     <p>15 bàn</p>
@@ -186,8 +186,8 @@
                         </li>
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/3.png" />
-                                <img class="avatar mobile-avatar" src="../images/avt.jpg" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/3.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/avt.jpg" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Dương Văn Nam(09)</p>
                                     <p>14 bàn</p>
@@ -201,16 +201,17 @@
             @* Top dẫn đầu *@
             <div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge-custom">Top đội dẫn đầu</span>
-                    <a class="custom-link">Xem tất cả</a>
+                    <span class="badge-custom">Bảng xếp hạng</p></span>
+                    <a asp-area="" asp-controller="XepHang" asp-action="Index" asp-route-tabActive="1" class="custom-link">Xem tất cả</a>
+
                 </div>
 
                 <div>
                     <ul class="collection">
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/1.png" />
-                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/1.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Phú Bình 1 </p>
                                     <p>21 điểm </p>
@@ -219,8 +220,8 @@
                         </li>
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/2.png" />
-                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/2.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Sông Công</p>
                                     <p>19 điểm </p>
@@ -229,8 +230,8 @@
                         </li>
                         <li class="collection-item">
                             <div class="d-flex justify-content-between align-items-center">
-                                <img class="logo-top" src="../images/3.png" />
-                                <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="logo-top" src="~/images/3.png" />
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                 <div class="name-top d-flex justify-content-between">
                                     <p>Điềm Thụy </p>
                                     <p>15 điểm </p>
@@ -249,12 +250,10 @@
                         <option value="2">Vòng 2</option>
                         <option value="3">Vòng 3</option>
                     </select>
-                    <label>Chọn vòng đấu</label>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="badge-custom">Vòng 1</span>
-                    <a class="custom-link">Xem tất cả</a>
                 </div>
 
                 <div>
@@ -264,7 +263,7 @@
                                 <div class="col s5">
                                     <div class="d-flex justify-content-end align-items-center">
                                         <p class="mobile-text">Đại Từ</p>
-                                        <img class="avatar-round" src="../images/MU.png">
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar-round" src="~/images/MU.png">
                                     </div>
                                 </div>
                                 <div class="col s2 center-align border mobile-ti-so">
@@ -273,7 +272,7 @@
                                 </div>
                                 <div class="col s5 left-align">
                                     <div class="d-flex justify-content-start align-items-center">
-                                        <img class="avatar-round" src="../images/MU.png">
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar-round" src="~/images/MU.png">
                                         <p class="mobile-text">Phú Bình 2</p>
                                     </div>
                                 </div>
@@ -289,27 +288,27 @@
             @* Grid *@
             <div class="grid">
                 <div class="card-custom bg-blue double-height">
-                    <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" />
                     <div>Số vận động viên tham dự giải đấu<br><strong>276</strong></div>
                 </div>
 
                 <div class="card-custom bg-yellow">
-                    <img src="../images//one_goal.svg" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//one_goal.svg" />
                     <div>Số bàn ghi được<br><strong>133</strong></div>
                 </div>
 
                 <div class="card-custom bg-purple">
-                    <img src="../images//phanLuoiNha.png" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//phanLuoiNha.png" />
                     <div>Số bàn phản lưới nhà<br><strong>3</strong></div>
                 </div>
 
                 <div class="card-custom bg-gray">
-                    <img src="../images//tongTranDau.png" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//tongTranDau.png" />
                     <div>Tổng số trận đấu<br><strong>32</strong></div>
                 </div>
 
                 <div class="card-custom bg-lightblue">
-                    <img src="../images//tongThePhat.svg" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//tongThePhat.svg" />
                     <div>Tổng số thẻ phạt<br><strong>47</strong></div>
                 </div>
 
@@ -343,12 +342,12 @@
                 </div>
 
                 <div class="card-custom bg-lightblue">
-                    <img src="../images//theVang.png" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//theVang.png" />
                     <div>Tổng số thẻ vàng<br><strong>43</strong></div>
                 </div>
 
                 <div class="card-custom bg-blue">
-                    <img src="../images/theDo.png" />
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images/theDo.png" />
                     <div>Tổng số thẻ đỏ<br><strong>4</strong></div>
                 </div>
             </div>
@@ -367,7 +366,7 @@
                                 <div class="col s5">
                                     <div class="d-flex justify-content-end align-items-center">
                                         <p class="mobile-text">FC Minh Sơn</p>
-                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                     </div>
                                 </div>
                                 <div class="col s2 center-align border mobile-ti-so">
@@ -376,7 +375,7 @@
                                 </div>
                                 <div class="col s5 left-align">
                                     <div class="d-flex justify-content-start align-items-center">
-                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                         <p class="mobile-text">FC Minh Sơn</p>
                                     </div>
                                 </div>
@@ -401,7 +400,7 @@
                                 <div class="col s5">
                                     <div class="d-flex justify-content-end align-items-center">
                                         <p class="mobile-text">FC Minh Sơn</p>
-                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                     </div>
                                 </div>
                                 <div class="col s2 center-align border mobile-ti-so">
@@ -410,7 +409,7 @@
                                 </div>
                                 <div class="col s5 left-align">
                                     <div class="d-flex justify-content-start align-items-center">
-                                        <img class="avatar mobile-avatar" src="../images/MU.png" />
+                                        <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" class="avatar mobile-avatar" src="~/images/MU.png" />
                                         <p class="mobile-text">FC Minh Sơn</p>
                                     </div>
                                 </div>
@@ -424,10 +423,20 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, {});
-        var selects = document.querySelectorAll('select');
-        var instancesSelects = M.FormSelect.init(selects, {});
+    const { createApp, ref, onMounted } = Vue;
+    const app = createApp({
+        setup() {
+            onMounted(async () => {
+                const elems = document.querySelectorAll('.sidenav');
+                const instances = M.Sidenav.init(elems, {});
+                const selects = document.querySelectorAll('select');
+                const instancesSelects = M.FormSelect.init(selects, {});
+
+                const response = await apiGet('Home/GetProducts');
+                console.log('response',response)
+            });
+            return { };
+        }
     });
+    app.mount('#home_index');
 </script>

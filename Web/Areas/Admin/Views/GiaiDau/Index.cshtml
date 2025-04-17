@@ -1,0 +1,173 @@
+﻿<style>
+    .giaiDau-card {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .giaiDau-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .team-logo {
+        height: 100px;
+    }
+
+    .blue-header {
+        background-color: #1565c0;
+        color: white;
+        padding: 6px;
+        text-align: center;
+    }
+
+    .card .card-content {
+        padding: 12px;
+    }
+
+    .card .card-action {
+        padding: 6px;
+    }
+
+    .search-wrapper {
+        color: #777;
+        margin-top: -1px;
+        border-top: 1px solid rgba(0, 0, 0, 0.14);
+        -webkit-transition: margin .25s ease;
+        transition: margin .25s ease;
+        position: relative;
+    }
+
+        .search-wrapper.focused .search-results:not(:empty) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.14)
+        }
+
+        .search-wrapper input#search {
+            color: #777;
+            display: block;
+            font-size: 16px;
+            font-weight: 300;
+            width: 100%;
+            height: 46px;
+            margin: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 0 45px 0 0px;
+            border: 0
+        }
+
+            .search-wrapper input#search:focus {
+                outline: none;
+                -webkit-box-shadow: none;
+                box-shadow: none
+            }
+
+        .search-wrapper i.material-icons {
+            position: absolute;
+            top: 21px;
+            right: 10px;
+            cursor: pointer
+        }
+
+    .search-results {
+        margin: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.14);
+        background-color: #fff
+    }
+    .active-giai-dau{
+        background-color: #b2c9dd;
+    }
+</style>
+<div id="admin_giaDau_index">
+    <div class="row right-align">
+      <div class="col s12 l6 valign-wrapper" style="height: 62px;">
+        <h6>Có tất cả 12 giải</h6>
+      </div>
+      <div class="col s12 l6">
+        <div class="search-wrapper">
+            <input id="search" placeholder="Search"><i class="material-icons">search</i>
+            <div class="search-results"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m6 l3 active-giai-dau">
+          <div class="card giaiDau-card">
+            <div class="blue-header">
+              <h6 class="truncate">Giải đấu đá bóng Tree 2025</h6>
+            </div>
+            <div class="card-content center">
+              <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
+              <div><label>17 đội - Thi đấu vòng tròn</label></div>
+              <div>
+                <div><label>Đã hoàn thành 50/136 trận</label></div>
+                <div class="progress">
+                  <div class="determinate" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action center">
+              <a asp-area="Admin" asp-controller="GiaiDau" asp-action="ChiTiet" asp-route-id="1" class="btn detail-btn lime darken-3">Sửa</a>
+              <a asp-area="Admin" asp-controller="LichThiDau" asp-action="Index" asp-route-idGiaiDau="1" class="btn detail-btn blue darken-3 ml-1">Chọn</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+          <div class="card giaiDau-card">
+            <div class="blue-header">
+              <h6 class="truncate">Giải đấu đá bóng Tree 2025</h6>
+            </div>
+            <div class="card-content center">
+              <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
+              <div><label>17 đội - Thi đấu vòng tròn</label></div>
+              <div>
+                <div><label>Đã hoàn thành 50/136 trận</label></div>
+                <div class="progress">
+                  <div class="determinate" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action center">
+              <a asp-area="Admin" asp-controller="GiaiDau" asp-action="Index" class="btn detail-btn blue darken-3">Xem</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+          <div class="card giaiDau-card">
+            <div class="blue-header">
+              <h6 class="truncate">Giải đấu đá bóng Tree 2025</h6>
+            </div>
+            <div class="card-content center">
+              <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
+              <div><label>17 đội - Thi đấu vòng tròn</label></div>
+              <div>
+                <div><label>Đã hoàn thành 50/136 trận</label></div>
+                <div class="progress">
+                  <div class="determinate" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action center">
+              <a asp-area="Admin" asp-controller="GiaiDau" asp-action="Index" class="btn detail-btn blue darken-3">Xem</a>
+            </div>
+          </div>
+        </div>
+
+       
+
+        
+    </div>
+</div>
+
+<script>
+    const { createApp, ref, onMounted } = Vue;
+    const app = createApp({
+        setup() {
+            onMounted(() => {
+            });
+            return { };
+        }
+    });
+    app.mount('#admin_giaDau_index');
+</script>

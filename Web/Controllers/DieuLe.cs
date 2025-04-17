@@ -2,7 +2,7 @@
 
 namespace Web.Controllers
 {
-    public class DieuLe : Controller
+    public class DieuLe : BaseController
     {
         public IActionResult Index()
         {

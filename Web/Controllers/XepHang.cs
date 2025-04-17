@@ -2,7 +2,7 @@
 
 namespace Web.Controllers
 {
-    public class XepHang : Controller
+    public class XepHang : BaseController
     {
         public IActionResult Index(int? tabActive = 1)
         {

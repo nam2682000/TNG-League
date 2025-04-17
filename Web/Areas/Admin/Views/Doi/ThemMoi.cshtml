@@ -1,0 +1,377 @@
+﻿<style>
+    .team-header {
+        border-radius: 10px;
+        padding: 0px 20px;
+        margin-top: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding-top: 40px;
+        padding-bottom: 12px;
+    }
+
+    .team-logo {
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .player-card {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .player-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .player-logo {
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .blue-header {
+        background-color: #1565c0;
+        color: white;
+        padding: 6px;
+        text-align: center;
+    }
+
+    .player-badge {
+        min-width: 3rem;
+        padding: 0 6px;
+        text-align: center;
+        font-size: .75rem;
+        line-height: 22px;
+        height: 22px;
+        color: white;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        min-width: 3.2rem;
+        border-radius: 15px;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .card .card-content {
+        padding: 12px;
+    }
+
+    .card .card-action {
+        padding: 6px;
+    }
+
+    .padding-3 {
+        padding: 0.75rem .75rem 0 .75rem !important;
+    }
+
+    .collection .collection-item {
+        padding: 3px 3px;
+    }
+
+
+    .w-100 {
+        width: 100%;
+    }
+
+    .avatar-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .avatar-img {
+        width: 8rem !important;
+        height:8rem !important;
+        object-fit: cover;
+        background: white;
+    }
+
+    .avatar-img-doi{
+        width: 11rem !important;
+        height: 11rem !important;
+        object-fit: cover;
+        background: white;
+    }
+
+    .upload-btn {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background-color: #2196f3;
+        border-radius: 50%;
+        padding: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .upload-btn:hover {
+        background-color: #1565c0;
+    }
+
+    .upload-btn i {
+        color: white;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+
+    @@media only screen and (max-width: 992px) {
+        .padding-3 {
+            padding: 0.3rem .3rem 0 .3rem !important;
+        }
+    }
+</style>
+<div id="admin_doi_themMoi">
+    <form v-on:submit.prevent="handleSubmit">
+        <div class="row">
+            <div class="card form-card z-depth-3">
+                <div class="card-header white-text center-align blue">
+                    <h6 class="card-title" style="margin: 0; padding: 6px 0;">Tạo đội đấu</h6>
+                </div>
+
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12 m3 l3  center-align">
+                            <div class="avatar-container">
+                                <!-- Avatar preview -->
+                                <img :src="avatarPreview || '/default-avatar.png'"
+                                    class="avatar-img-doi circle responsive-img z-depth-2" />
+
+                                <!-- Upload button -->
+                                <div class="upload-btn">
+                                    <label>
+                                        <i class="material-icons">photo_camera</i>
+                                        <input type="file" v-on:change="handleAvatarChange" accept="image/*" hidden />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m9 l9">
+                            <div class="row">
+                                <div class="col s12 l6">
+                                    <div class="input-field">
+                                        <input id="tenDoi" type="text" class="validate" v-model="form.tenDoi"
+                                            required />
+                                        <label for="tenDoi" class="active">Tên đội *</label>
+                                    </div>
+                                </div>
+                                <div class="col s12 l6">
+                                    <div class="input-field">
+                                        <input id="tenNguoiLienHe" type="text" class="validate"
+                                            v-model="form.tenNguoiLienHe" />
+                                        <label for="tenNguoiLienHe" class="active">Tên người liên hệ</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6">
+                                    <!-- Số điện thoại -->
+                                    <div class="input-field">
+                                        <input id="soDienThoai" type="tel" class="validate"
+                                            v-model="form.soDienThoai" />
+                                        <label for="soDienThoai" class="active">Số Điện Thoại</label>
+                                    </div>
+                                </div>
+                                <div class="col s12 l6">
+                                    <!-- Địa điểm -->
+                                    <div class="input-field">
+                                        <input id="email" type="email" class="validate" v-model="form.email" />
+                                        <label for="email" class="active">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row pt-3">
+            <div class="d-flex align-self-center justify-content-between">
+                <div class="valign-wrapper">
+                    <a class="btn-floating" v-on:click="addNewRow">
+                        <i class="material-icons">add</i>
+                    </a>
+                    Thêm thành viên
+                </div>
+                <div class="center-align">
+                    <button class="btn-large waves-effect waves-light green">
+                        Lưu tất cả
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+            <div v-for="(thanhVien, index) in formThanhViens" :key="index" class="col s12 m6 l4">
+                <div class="card player-card">
+                    <div class="blue-header">
+                        <h6>{{thanhVien.hoTen ?? `New(${formThanhViens.length-index})`}}</h6>
+                    </div>
+                    <div class="card-content center">
+                        <div class="row">
+                            <div class="col s12 l6 center-align">
+                                <div class="avatar-container">
+                                    <!-- Avatar preview -->
+                                    <img :src="thanhVien.avatar || '/default-avatar.png'"
+                                        class="avatar-img circle responsive-img z-depth-2" />
+                                    <!-- Upload button -->
+                                    <div class="upload-btn">
+                                        <label>
+                                            <i class="material-icons">photo_camera</i>
+                                            <input type="file" v-on:change="handleAvatarThanhVien(thanhVien, $event)" accept="image/*"
+                                                hidden />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 l6">
+                                <input placeholder="Họ tên" type="text" class="validate" v-model="thanhVien.hoTen" />
+                                <input placeholder="Tên thi đấu" type="text" class="validate"
+                                    v-model="thanhVien.tenThiDau" />
+                                <input placeholder="Số áo" type="number" class="validate" v-model="thanhVien.soAo" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 l6">
+                                <input placeholder="Số điện thoại" type="number" class="validate"
+                                    v-model="thanhVien.soDienThoai" />
+                                <select v-model="thanhVien.vaiTro" class="validate" required>
+                                    <option value="1">Vận động viên</option>
+                                    <option value="2">Huấn luyện viên</option>
+                                    <option value="3">Quản lý</option>
+                                </select>
+
+                            </div>
+                            <div class="col s12 l6">
+                                <input placeholder="Số CCCD" type="number" class="validate"
+                                    v-model="thanhVien.soCCCD" />
+                                <select v-model="thanhVien.viTri" class="validate" required>
+                                    <option value="1">Tiền đạo</option>
+                                    <option value="2">Tiền vệ</option>
+                                    <option value="3">Hậu vệ</option>
+                                    <option value="4">Thủ môn</option>
+                                    <option value="5">Trọng tài</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action center">
+                        <a class="detail-btn red btn-small modal-trigger"
+                           v-on:click="openConfirmModal(thanhVien)" href="#confirmModal">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h5>Xác nhận</h5>
+            <p>Bạn có chắc muốn xóa mục này không?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Hủy</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat" v-on:click="handleDelete">Xóa</a>
+        </div>
+    </div>
+</div>
+<script>
+    const { createApp, ref, onMounted, reactive, nextTick } = Vue;
+    const app = createApp({
+        setup() {
+            const formThanhViens = reactive([]);
+            const form = ref({
+                soNguoiTrenSan: 7,
+                gioiTinh: "Nam",
+                phone: '',
+                hinhThucThiDauId: 1,
+                location: '',
+                avatarFile: null,
+                isAuToSetup: false,
+                soDoi: 2,
+                soDoiVaoVongTrong: 2,
+                diemThang: 3,
+                diemHoa: 1,
+                diemThua: 0,
+            });
+
+            const selectedItem = ref(null)
+
+            const avatarPreview = ref("/images/no-image.jpeg");
+            //const tournament = ref(tournamentData); // Dữ liệu từ Razor
+
+            const handleAvatarChange = (event) => {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    form.value.avatarFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        avatarPreview.value = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            const handleAvatarThanhVien = (thanhVien,event) => {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    thanhVien.avatarFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        thanhVien.avatar = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            
+
+            const openConfirmModal = (item) => {
+                selectedItem.value = item
+            }
+
+            const handleSubmit = () => {
+                console.log('Form Data:', form.value);
+                alert('Giải đấu đã được gửi!');
+                // TODO: Gửi form về server bằng fetch/AJAX nếu cần
+            };
+
+            const handleDelete = () => {
+                console.log(selectedItem.value)
+                if (!selectedItem.value) return
+                const index = formThanhViens.findIndex(x => x.id === selectedItem.value.id);
+                if (index !== -1) {
+                    formThanhViens.splice(index, 1);
+                }
+                selectedItem.value = null;
+            }
+            const addNewRow = () => {
+                const id = formThanhViens.length+1;
+                formThanhViens.unshift({id:id, hoTen: null, tenThiDau: '', soAo: '', soDienThoai: '', soCCCD: '', viTri: 1, vaiTro: 1, avatar : "/images/no-image.jpeg", avatarFile : null});
+                nextTick(() => {
+                    const elems = document.querySelectorAll('select');
+                    M.FormSelect.init(elems);
+                });
+            }
+
+            onMounted(() => {
+
+            });
+            return {
+                form,
+                formThanhViens,
+                avatarPreview,
+                handleAvatarChange,
+                handleAvatarThanhVien,
+                handleSubmit,
+                handleDelete,
+                openConfirmModal,
+                addNewRow,
+            };
+        }
+    });
+    app.mount('#admin_doi_themMoi');
+</script>

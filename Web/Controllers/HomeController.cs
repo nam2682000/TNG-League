@@ -2,10 +2,11 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Domain;
 using TngLeagueMVC.Models;
+using Web.Controllers;
 
 namespace TngLeagueMVC.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
     public HomeController(ILogger<HomeController> logger)

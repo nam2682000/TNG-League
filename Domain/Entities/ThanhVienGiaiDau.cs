@@ -10,6 +10,6 @@ public class ThanhVienGiaiDau : BaseEntity<int>
     public int? GiaiDauId { get; set; }
     public int? DoiBongId { get; set; }
     public ThanhVien? ThanhVien { get; set; }
-    public GiaiDau? GiaiDau { get; set; } 
+    public GiaiDau? GiaiDau { get; set; }
     public DoiBong? DoiBongs { get; set; }
 }

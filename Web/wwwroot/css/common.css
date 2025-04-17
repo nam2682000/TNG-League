@@ -133,21 +133,6 @@
 .width-100{
     width: 100%
 }
-.pl-16{
-    padding-left: 16px;
-}
-.pl-32{
-    padding-left: 32px;
-}
-.pl-64{
-    padding-left: 64px;
-}
-.mt-16{
-    margin-top: 16px;
-}
-.mt-16{
-    margin-top: 16px;
-}
 
 /* MARGIN & PADDING UTILITY CLASSES */
 
@@ -273,7 +258,7 @@
 td, th {
     border-radius:0px!important;
 }
-    .tabs {
+  .tabs {
     height: 30px;
 }
     .tabs .tab {

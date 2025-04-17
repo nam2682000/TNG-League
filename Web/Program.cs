@@ -1,4 +1,4 @@
-using API.Dependency;
+﻿using API.Dependency;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +8,14 @@ using Domain.Entities;
 using Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+// Thêm services cần thiết cho session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -62,6 +70,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+// Thêm middleware session
+app.UseSession();
 app.UseStaticFiles();
 app.UseRouting();
 

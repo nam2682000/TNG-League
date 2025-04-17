@@ -1,0 +1,314 @@
+﻿<style>
+    .giaiDau-logo {
+        width: 15rem !important;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .w-100 {
+        width: 100%;
+    }
+</style>
+<div id="admin_giaDau_chiTiet">
+    <div v-if="form.hinhThucThiDauId == 1 || form.hinhThucThiDauId == 2" class="row">
+        <div class="card form-card z-depth-3">
+            <div class="card-header white-text center-align blue">
+                <h6 class="card-title" style="margin: 0; padding: 6px 0;">Tạo giải đấu mới</h6>
+            </div>
+            <div class="card-content">
+                <form v-on:submit.prevent="handleSubmit">
+                    <div class="row">
+                        <div class="col s12 l4 m3 center-align">
+                            <!-- Avatar -->
+                            <img v-if="avatarPreview" :src="avatarPreview"
+                                class="giaiDau-logo avatar-preview circle responsive-img" />
+                            <div class="file-field input-field d-flex justify-content-center">
+                                <div class="btn blue w-100">
+                                    <span>Chọn ảnh</span>
+                                    <input type="file" v-on:change="handleAvatarChange" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 l8 m9">
+                            <!-- Tên giải đấu -->
+                            <div class="input-field">
+                                <input id="tenGiaiDau" type="text" class="validate" v-model="form.tenGiaiDau"
+                                    required />
+                                <label for="tenGiaiDau" class="active">Tên Giải Đấu *</label>
+                            </div>
+
+                            <div class="input-field">
+                                <input id="tenNguoiLienHe" type="text" class="validate" v-model="form.tenNguoiLienHe" />
+                                <label for="tenNguoiLienHe" class="active">Tên người liên hệ</label>
+                            </div>
+
+                            <!-- Số điện thoại -->
+                            <div class="input-field">
+                                <input id="soDienThoai" type="tel" class="validate" v-model="form.soDienThoai" />
+                                <label for="soDienThoai" class="active">Số Điện Thoại</label>
+                            </div>
+
+                            <!-- Địa điểm -->
+                            <div class="input-field">
+                                <input id="email" type="email" class="validate" v-model="form.email" />
+                                <label for="email" class="active">Email</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l4 m4">
+                            <select v-model="form.gioiTinh" class="validate" required>
+                                <option value="Nam">Đối tượng: Nam</option>
+                                <option value="Nu">Đối tượng: Nữ</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field col s12 l4 m4">
+                            <select v-model="form.soNguoiTrenSan" class="validate" required>
+                                <option value="5">Sân 5</option>
+                                <option value="7">Sân 7</option>
+                                <option value="11">Sân 11</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field col s12 l4 m4">
+                            <select v-on:change v-model="form.isAuToSetup" class="validate" required>
+                                <option value="false">Tự setup</option>
+                                <option value="true">Tự động</option>
+                            </select>
+                            <label>Chế độ*</label>
+                        </div>
+
+                        <div class="input-field col s12 l4 m4">
+                            <select v-on:change v-model="form.hinhThucThiDauId" class="validate" required>
+                                <option value="1">Vòng tròn</option>
+                                <option value="2">Loại trực tiếp</option>
+                                @* <option value="3">Chia bảng</option> *@
+                            </select>
+                            <label>Hình thức thi đấu*</label>
+                        </div>
+
+                        <div class="input-field col s12 l4 m4">
+                            <input id="soDoi" type="number" min="2" max="32" class="validate" v-model="form.soDoi"
+                                required />
+                            <label for="soDoi" class="active">Số đội tham gia [>2] *</label>
+                        </div>
+
+                        <transition name="slide-up">
+                            <div v-show="form.hinhThucThiDauId == 1" class="row">
+                                <div class="input-field col s12 l4 m4">
+                                    <select v-on:change v-model="form.soDoiVaoVongTrong" class="validate" required>
+                                        <option value="2">2</option>
+                                        <option value="4">4</option>
+                                        <option value="8">8</option>
+                                        <option value="8">16</option>
+                                    </select>
+                                    <label for="soDoiVaoVongTrong">Số đội vào vòng trong *</label>
+                                </div>
+
+                                <div class="input-field col s12 l4 m4">
+                                    <input id="diemThang" type="number" min="0" max="5" class="validate"
+                                        v-model="form.diemThang" required />
+                                    <label for="diemThang" class="active">Điểm thắng *</label>
+                                </div>
+                                <div class="input-field col s12 l4 m4">
+                                    <input id="diemHoa" type="number" min="0" max="5" class="validate"
+                                        v-model="form.diemHoa" required />
+                                    <label for="diemHoa" class="active">Điểm hòa *</label>
+                                </div>
+                                <div class="input-field col s12 l4 m4">
+                                    <input id="diemThua" type="number" min="0" max="5" class="validate"
+                                        v-model="form.diemThua" required />
+                                    <label for="diemThua" class="active">Điểm thua *</label>
+                                </div>
+                                <div v-if="isShowRound">
+                                    <div>
+                                        <a class="btn-floating" v-on:click="addNewRow"><i
+                                                class="material-icons">add</i></a>
+                                        Thêm vòng đấu
+                                    </div>
+                                    <div>
+                                        <table class="striped centered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="max-width: 100px;">Thứ tự</th>
+                                                    <th>Tên vòng</th>
+                                                    <th>Số đội</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in vongDau" :key="index">
+                                                    <td v-if="item.isShow">
+                                                        <input type="number" v-model="item.order" class="validate"
+                                                            required>
+                                                    </td>
+                                                    <td v-if="item.isShow">
+                                                        <input type="text" v-model="item.tenVong" class="validate"
+                                                            required>
+                                                    </td>
+                                                    <td v-if="item.isShow">
+                                                        <input type="number" v-model="item.soDoi" class="validate"
+                                                            required>
+                                                    </td>
+                                                    <td v-if="item.isShow">
+                                                        <a class="btn-floating btn-small modal-trigger"
+                                                            v-on:click="openConfirmModal(item)" href="#confirmModal"><i
+                                                                class="material-icons">delete</i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
+                    <!-- Submit -->
+                    <div class="center-align">
+                        <button class="btn-large waves-effect waves-light green" type="submit">
+                            Lưu
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h5>Xác nhận</h5>
+            <p>Bạn có chắc muốn xóa mục này không?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Hủy</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat" v-on:click="handleDelete">Xóa</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const resetOrder = (array) => {
+        let order = 1;
+        array.forEach((item, index) => {
+            if (item.isShow) {
+                item.order = order;
+                order++;
+            }
+        });
+    }
+
+    const { createApp, ref, onMounted, reactive, computed, watch } = Vue;
+    const app = createApp({
+        setup() {
+            const form = ref({
+                soNguoiTrenSan: 7,
+                gioiTinh: "Nam",
+                phone: '',
+                hinhThucThiDauId: 1,
+                location: '',
+                avatarFile: null,
+                isAuToSetup: false,
+                soDoi: 2,
+                soDoiVaoVongTrong: 2,
+                diemThang: 3,
+                diemHoa: 1,
+                diemThua: 0,
+            });
+
+            const selectedItem = ref(null)
+
+            const vongDau = reactive([
+                { tenVong: 'Vòng bảng', soDoi: 2, order: 1, isShow: true, isDefault: false },
+                { tenVong: 'Tứ kết', soDoi: 8, order: 2, isShow: true, isDefault: true },
+                { tenVong: 'Bán kết', soDoi: 4, order: 3, isShow: true, isDefault: true },
+                { tenVong: 'Chung kết', soDoi: 2, order: 4, isShow: true, isDefault: true },
+            ])
+            const avatarPreview = ref("/images/no-image.jpeg");
+            //const tournament = ref(tournamentData); // Dữ liệu từ Razor
+
+            const isShowRound = computed(() => {
+                return (
+                    form.value.soDoi > 1 &&
+                    form.value.soDoiVaoVongTrong > 1 &&
+                    form.value.soDoiVaoVongTrong <= form.value.soDoi
+                )
+            })
+
+            watch(
+                () => [form.value.soDoi, form.value.soDoiVaoVongTrong],
+                ([soDoi, soDoiVaoVongTrong]) => {
+                    if (soDoi > 1 && soDoiVaoVongTrong > 1 && soDoiVaoVongTrong <= soDoi) {
+                        vongDau.forEach((item) => {
+                            if (item.tenVong == "Vòng bảng") item.soDoi = soDoi;
+                            if (item.isDefault) {
+                                item.isShow = item.soDoi <= soDoiVaoVongTrong;
+                            }
+                        });
+                        resetOrder(vongDau)
+                    }
+                },
+                { immediate: true }
+            )
+
+
+            const handleAvatarChange = (event) => {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    form.value.avatarFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        avatarPreview.value = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            const openConfirmModal = (item) => {
+                selectedItem.value = item
+            }
+
+            const handleSubmit = () => {
+                console.log('Form Data:', form.value);
+                alert('Giải đấu đã được gửi!');
+                // TODO: Gửi form về server bằng fetch/AJAX nếu cần
+            };
+
+            const handleDelete = () => {
+                if (!selectedItem.value) return
+                const index = vongDau.findIndex(x => x.order === selectedItem.value.order);
+                if (index !== -1) {
+                    vongDau.splice(index, 1);
+                }
+                selectedItem.value = null;
+                dataRoundInit = vongDau;
+                resetOrder(vongDau);
+            }
+            const addNewRow = () => {
+                vongDau.unshift({ tenVong: '', soDoi: 0, order: 1, isShow: true, isDefault: false });
+                dataRoundInit = vongDau;
+                resetOrder(vongDau);
+            }
+
+
+            onMounted(() => {
+
+            });
+            return {
+                form,
+                vongDau,
+                avatarPreview,
+                handleAvatarChange,
+                handleSubmit,
+                handleDelete,
+                openConfirmModal,
+                addNewRow,
+                isShowRound
+            };
+        }
+    });
+    app.mount('#admin_giaDau_chiTiet');
+</script>

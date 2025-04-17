@@ -1,0 +1,230 @@
+﻿<style>
+    .match-header {
+        background: #fff;
+        margin-top: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin: 0.75rem .75rem 0 .75rem;
+    }
+
+    .team-logo {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .team-name {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .score {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .card-event {
+        border-left: 5px solid #42a5f5;
+        padding-left: 15px;
+        margin-bottom: 12px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .event-time {
+        font-weight: bold;
+        margin-right: 6px;
+        color: #42a5f5;
+    }
+
+    .event-icon {
+        font-size: 1.1rem;
+        margin-right: 5px;
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .blue-header {
+        background-color: #1565c0;
+        color: white;
+        padding: 6px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 992px) {
+        .match-header {
+            margin: 0.3rem .3rem 0 .3rem;
+        }
+    }
+</style>
+<div id="admin_lichThiDau_chiTiet">
+    <!-- Thông tin trận đấu -->
+    <div class="match-header center-align">
+        <div class="row valign-wrapper">
+            <div class="col s4 pt-3">
+                <img src="~/images//MU.png" class="team-logo">
+                <div class="team-name">Sông Công</div>
+            </div>
+            <div class="col s4 score">2 - 1</div>
+            <div class="col s4 pt-3">
+                <img src="~/images//MU.png" class="team-logo">
+                <div class="team-name">Phú Bình</div>
+            </div>
+        </div>
+        <p>
+            <i class="material-icons tiny">schedule</i> 15:00 - 12/04/2025 &nbsp; | &nbsp; <i class="material-icons tiny">place</i> SVĐ Thái Nguyên
+        </p>
+    </div>
+
+    <!-- Đội hình ra sân -->
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card team-card">
+                <div class="blue-header">
+                    <h6>Đội hình ra sân - Sông Công</h6>
+                </div>
+                <div class="card-content">
+                    <table class="">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tên</th>
+                                <th class="center-align">Số áo</th>
+                                <th>Vị trí</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Thủ môn</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền đạo</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Hậu vệ</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền vệ</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền đạo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card team-card">
+                <div class="blue-header">
+                    <h6>Đội hình ra sân - Phú Bình</h6>
+                </div>
+                <div class="card-content">
+                    <table class="">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tên</th>
+                                <th class="center-align">Số áo</th>
+                                <th>Vị trí</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Thủ môn</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền đạo</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Hậu vệ</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền vệ</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Dương Nam</td>
+                                <td class="center-align">10</td>
+                                <td>Tiền đạo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sự kiện trận đấu -->
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card team-card">
+                <div class="blue-header">
+                    <h6>Sự kiện - Sông Công</h6>
+                </div>
+                <div class="card-content">
+                    <div class="card-event"><span class="event-time">12'</span>⚽️ Ghi bàn - Nguyễn Văn A</div>
+                    <div class="card-event"><span class="event-time">20'</span>🟨 Thẻ vàng - Trần Văn B</div>
+                    <div class="card-event"><span class="event-time">40'</span>🥅 Phản lưới - Lê Văn C</div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card team-card">
+                <div class="blue-header">
+                    <h6>Sự kiện - Phú Bình</h6>
+                </div>
+                <div class="card-content">
+                    <div class="card-event"><span class="event-time">75'</span>⚽️ Ghi bàn - Phạm Văn D</div>
+                    <div class="card-event"><span class="event-time">33'</span>🟥 Thẻ đỏ - Đỗ Văn F</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const { createApp, ref, onMounted } = Vue;
+    const app = createApp({
+        setup() {
+            onMounted(() => {
+            });
+            return { };
+        }
+    });
+    app.mount('#admin_lichThiDau_chiTiet');
+</script>

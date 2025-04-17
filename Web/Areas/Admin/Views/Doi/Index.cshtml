@@ -1,12 +1,13 @@
-﻿<style>
+﻿
+<style>
     .team-card {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
     }
 
-    .team-card:hover {
-        transform: translateY(-5px);
-    }
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
 
     .team-logo {
         height: 100px;
@@ -51,36 +52,36 @@
         position: relative;
     }
 
-    .search-wrapper.focused .search-results:not(:empty) {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.14)
-    }
+        .search-wrapper.focused .search-results:not(:empty) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.14)
+        }
 
-    .search-wrapper input#search {
-        color: #777;
-        display: block;
-        font-size: 16px;
-        font-weight: 300;
-        width: 100%;
-        height: 46px;
-        margin: 0;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0 45px 0 30px;
-        border: 0
-    }
+        .search-wrapper input#search {
+            color: #777;
+            display: block;
+            font-size: 16px;
+            font-weight: 300;
+            width: 100%;
+            height: 46px;
+            margin: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 0 45px 0 0px;
+            border: 0
+        }
 
-    .search-wrapper input#search:focus {
-        outline: none;
-        -webkit-box-shadow: none;
-        box-shadow: none
-    }
+            .search-wrapper input#search:focus {
+                outline: none;
+                -webkit-box-shadow: none;
+                box-shadow: none
+            }
 
-    .search-wrapper i.material-icons {
-        position: absolute;
-        top: 21px;
-        right: 10px;
-        cursor: pointer
-    }
+        .search-wrapper i.material-icons {
+            position: absolute;
+            top: 21px;
+            right: 10px;
+            cursor: pointer
+        }
 
     .search-results {
         margin: 0;
@@ -88,13 +89,23 @@
         background-color: #fff
     }
 </style>
-<div id="doi_index">
 
+
+<div id="admin_doi_index">
+    
     <div class="row right-align">
-        <div class="col s12 l6 valign-wrapper" style="height: 62px;">
-            <div>Có tất cả 1 đội</div>
+        <div class="col s12 l4 valign-wrapper" style="height: 62px;">
+            <div>
+                <a asp-area="Admin" asp-controller="Doi" asp-action="ThemMoi" class="btn-floating" v-on:click="addNewRow">
+                    <i class="material-icons">add</i>
+                </a>
+                Thêm đội đấu
+            </div>
         </div>
-        <div class="col s12 l6">
+        <div class="col s12 l4 valign-wrapper" style="height: 62px;">
+            <div class="center-align">Có tất cả 1 đội</div>
+        </div>
+        <div class="col s12 l4">
             <div class="search-wrapper">
                 <input id="search" placeholder="Search"><i class="material-icons">search</i>
                 <div class="search-results"></div>
@@ -119,7 +130,7 @@
                     <div><label>16 thành viên</label></div>
                 </div>
                 <div class="card-action center">
-                    <a asp-area="" asp-controller="Doi" asp-action="ChiTietDoi" asp-route-id="1" class="blue darken-3 btn">Chi tiết</a>
+                    <a asp-area="Admin" asp-controller="Doi" asp-action="ChiTiet" asp-route-id="1" class="blue darken-3 btn">Chi tiết</a>
                 </div>
             </div>
         </div>
@@ -185,7 +196,6 @@
         </div>
     </div>
 </div>
-
 <script>
     const { createApp, ref, onMounted } = Vue;
     const app = createApp({
@@ -195,5 +205,5 @@
             return { };
         }
     });
-    app.mount('#doi_index');
+    app.mount('#admin_doi_index');
 </script>

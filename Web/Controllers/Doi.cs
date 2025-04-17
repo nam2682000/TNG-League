@@ -2,14 +2,15 @@
 
 namespace Web.Controllers
 {
-    public class Doi : Controller
+    public class Doi : BaseController
     {
+        
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ChiTietDoi(int id)
+        public IActionResult ChiTiet(int id)
         {
             return View();
         }

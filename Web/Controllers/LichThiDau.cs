@@ -2,7 +2,7 @@
 
 namespace Web.Controllers
 {
-    public class LichThiDau : Controller
+    public class LichThiDau : BaseController
     {
         public IActionResult Index()
         {

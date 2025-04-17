@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Common;
 using Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain;
 
@@ -13,5 +12,5 @@ public class DoiBong : BaseEntity<int>
     public DateTime NgayThanhLap { get; set; } = DateTime.Now;
     public ICollection<ThanhVienGiaiDau> ThanhVienGiaiDaus { get; set; } = new List<ThanhVienGiaiDau>();
     public int? GiaiDauId { get; set; }
-    public GiaiDau? GiaiDau { get; set; } 
+    public GiaiDau? GiaiDau { get; set; }
 }

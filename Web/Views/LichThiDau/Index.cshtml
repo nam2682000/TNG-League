@@ -373,10 +373,10 @@
     const app = createApp({
         setup() {
             onMounted(() => {
-                const el = document.querySelectorAll('.tabs');
+                @* const el = document.querySelectorAll('.tabs');
                 const instanceTab = M.Tabs.init(el, {});
                 const selects = document.querySelectorAll('select');
-                const instancesSelects = M.FormSelect.init(selects, {});
+                const instancesSelects = M.FormSelect.init(selects, {}); *@
             });
             return { };
         }

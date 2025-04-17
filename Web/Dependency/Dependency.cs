@@ -1,4 +1,5 @@
-﻿using Application.Mappings;
+﻿using Application.Extensions;
+using Application.Mappings;
 using System.Reflection;
 
 namespace API.Dependency
@@ -8,6 +9,14 @@ namespace API.Dependency
         public static IServiceCollection DependencyInjection(this IServiceCollection services, IConfiguration configuration, Assembly applicationAssembly)
         {
             services.AddAutoMapper(typeof(AutoMapperProfile));
+            services.AddSingleton(provider =>
+            {
+                var env = provider.GetRequiredService<IWebHostEnvironment>();
+                return new FileStorageOptions
+                {
+                    WebRootPath = env.WebRootPath
+                };
+            });
 
             var types = applicationAssembly.DefinedTypes
             .Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Any() && t.Name.EndsWith("Service"));

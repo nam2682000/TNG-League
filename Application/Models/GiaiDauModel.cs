@@ -1,10 +1,12 @@
 ﻿using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace Application.Models.GiaiDau;
+namespace Application.Models;
 
 public class GiaiDauModel
 {
     public string TenGiaiDau { get; set; } = string.Empty;
+    public IFormFile? FileAvatar { get; set; }
     public string LinkAvatarGiaiDau { get; set; } = string.Empty;
     public string TenNguoiLienHe { get; set; } = string.Empty;
     public int SoDienThoai { get; set; }

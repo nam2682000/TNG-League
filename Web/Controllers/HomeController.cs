@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain;
 using TngLeagueMVC.Models;
 using Web.Controllers;
+using Domain.Entities;
 
 namespace TngLeagueMVC.Controllers;
 

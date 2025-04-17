@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250415042309_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250417035221_InnitDb")]
+    partial class InnitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,44 +24,6 @@ namespace Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Domain.DoiBong", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("GiaiDauId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LinkAnhDoi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NgayThanhLap")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TenDoiBong")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GiaiDauId");
-
-                    b.ToTable("DoiBongs");
-                });
 
             modelBuilder.Entity("Domain.Entities.ApplicationUser", b =>
                 {
@@ -157,6 +119,132 @@ namespace Domain.Migrations
                     b.HasIndex("GiaiDauId");
 
                     b.ToTable("BangDaus");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DoiDau", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GiaiDauId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LinkAnhDoi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayThanhLap")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenDoiDau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GiaiDauId");
+
+                    b.ToTable("DoiDaus");
+                });
+
+            modelBuilder.Entity("Domain.Entities.GiaiDau", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DiemHoa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiemThang")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiemThua")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GioiTinh")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HinhThucThiDauId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAuToSetup")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LinkAvatarGiaiDau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayBatDau")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayKetThuc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SoBangDau")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoDienThoai")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoDoi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoDoiVaoVongTrong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoNguoiTrenSan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoVongDau")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenGiaiDau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenNguoiLienHe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TrangThaiTuyChinh")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HinhThucThiDauId");
+
+                    b.ToTable("GiaiDaus");
                 });
 
             modelBuilder.Entity("Domain.Entities.GiaiDauBangDau", b =>
@@ -262,6 +350,49 @@ namespace Domain.Migrations
                     b.ToTable("HinhThucThiDaus");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ThanhVien", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GioiTinh")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HoTen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("NgaySinh")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Sdt")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SoCCCD")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ThanhViens");
+                });
+
             modelBuilder.Entity("Domain.Entities.ThanhVienGiaiDau", b =>
                 {
                     b.Property<int>("Id")
@@ -273,10 +404,10 @@ namespace Domain.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DoiBongId")
+                    b.Property<int?>("DoiDauId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoiBongId1")
+                    b.Property<int?>("DoiDauId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("GiaiDauId")
@@ -298,15 +429,25 @@ namespace Domain.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("VaiTroId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ViTriId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("DoiBongId");
+                    b.HasIndex("DoiDauId");
 
-                    b.HasIndex("DoiBongId1");
+                    b.HasIndex("DoiDauId1");
 
                     b.HasIndex("GiaiDauId");
 
                     b.HasIndex("ThanhVienId");
+
+                    b.HasIndex("VaiTroId");
+
+                    b.HasIndex("ViTriId");
 
                     b.ToTable("ThanhVienGiaiDaus");
                 });
@@ -326,13 +467,13 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoiBong1Id")
+                    b.Property<int?>("DoiDauNhaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoiBong2Id")
+                    b.Property<int?>("DoiDauKhachId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoiBongThangId")
+                    b.Property<int?>("DoiDauThangId")
                         .HasColumnType("int");
 
                     b.Property<int?>("GiaiDauBangDauId")
@@ -364,11 +505,11 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoiBong1Id");
+                    b.HasIndex("DoiDauNhaId");
 
-                    b.HasIndex("DoiBong2Id");
+                    b.HasIndex("DoiDauKhachId");
 
-                    b.HasIndex("DoiBongThangId");
+                    b.HasIndex("DoiDauThangId");
 
                     b.HasIndex("GiaiDauBangDauId");
 
@@ -549,88 +690,6 @@ namespace Domain.Migrations
                     b.ToTable("VongDaus");
                 });
 
-            modelBuilder.Entity("Domain.GiaiDau", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MuaGiai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("NgayBatDau")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("NgayKetThuc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TenGiaiDau")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TrangThaiTuyChinh")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GiaiDaus");
-                });
-
-            modelBuilder.Entity("Domain.ThanhVien", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GioiTinh")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HoTen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("NgaySinh")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Sdt")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SoCCCD")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ThanhViens");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -764,20 +823,29 @@ namespace Domain.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.DoiBong", b =>
+            modelBuilder.Entity("Domain.Entities.BangDau", b =>
                 {
-                    b.HasOne("Domain.GiaiDau", "GiaiDau")
-                        .WithMany("DoiBongs")
+                    b.HasOne("Domain.Entities.GiaiDau", null)
+                        .WithMany("BangDaus")
+                        .HasForeignKey("GiaiDauId");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DoiDau", b =>
+                {
+                    b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
+                        .WithMany("DoiDaus")
                         .HasForeignKey("GiaiDauId");
 
                     b.Navigation("GiaiDau");
                 });
 
-            modelBuilder.Entity("Domain.Entities.BangDau", b =>
+            modelBuilder.Entity("Domain.Entities.GiaiDau", b =>
                 {
-                    b.HasOne("Domain.GiaiDau", null)
-                        .WithMany("BangDaus")
-                        .HasForeignKey("GiaiDauId");
+                    b.HasOne("Domain.Entities.HinhThucThiDau", "HinhThucThiDaus")
+                        .WithMany()
+                        .HasForeignKey("HinhThucThiDauId");
+
+                    b.Navigation("HinhThucThiDaus");
                 });
 
             modelBuilder.Entity("Domain.Entities.GiaiDauBangDau", b =>
@@ -786,7 +854,7 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("BangDauId");
 
-                    b.HasOne("Domain.GiaiDau", "GiaiDau")
+                    b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
                         .WithMany()
                         .HasForeignKey("GiaiDauId");
 
@@ -797,7 +865,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.GiaiDauVongDau", b =>
                 {
-                    b.HasOne("Domain.GiaiDau", "GiaiDau")
+                    b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
                         .WithMany()
                         .HasForeignKey("GiaiDauId");
 
@@ -812,51 +880,63 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.ThanhVienGiaiDau", b =>
                 {
-                    b.HasOne("Domain.DoiBong", "DoiBongs")
+                    b.HasOne("Domain.Entities.DoiDau", "DoiDaus")
                         .WithMany()
-                        .HasForeignKey("DoiBongId")
+                        .HasForeignKey("DoiDauId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Domain.DoiBong", null)
+                    b.HasOne("Domain.Entities.DoiDau", null)
                         .WithMany("ThanhVienGiaiDaus")
-                        .HasForeignKey("DoiBongId1");
+                        .HasForeignKey("DoiDauId1");
 
-                    b.HasOne("Domain.GiaiDau", "GiaiDau")
+                    b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
                         .WithMany()
                         .HasForeignKey("GiaiDauId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Domain.ThanhVien", "ThanhVien")
+                    b.HasOne("Domain.Entities.ThanhVien", "ThanhVien")
                         .WithMany()
                         .HasForeignKey("ThanhVienId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("DoiBongs");
+                    b.HasOne("Domain.Entities.VaiTro", "VaiTro")
+                        .WithMany()
+                        .HasForeignKey("VaiTroId");
+
+                    b.HasOne("Domain.Entities.ViTri", "ViTri")
+                        .WithMany()
+                        .HasForeignKey("ViTriId");
+
+                    b.Navigation("DoiDaus");
 
                     b.Navigation("GiaiDau");
 
                     b.Navigation("ThanhVien");
+
+                    b.Navigation("VaiTro");
+
+                    b.Navigation("ViTri");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranDau", b =>
                 {
-                    b.HasOne("Domain.DoiBong", "DoiBong1")
+                    b.HasOne("Domain.Entities.DoiDau", "DoiDauNha")
                         .WithMany()
-                        .HasForeignKey("DoiBong1Id");
+                        .HasForeignKey("DoiDauNhaId");
 
-                    b.HasOne("Domain.DoiBong", "DoiBong2")
+                    b.HasOne("Domain.Entities.DoiDau", "DoiDauKhach")
                         .WithMany()
-                        .HasForeignKey("DoiBong2Id");
+                        .HasForeignKey("DoiDauKhachId");
 
-                    b.HasOne("Domain.DoiBong", "DoiBongThang")
+                    b.HasOne("Domain.Entities.DoiDau", "DoiDauThang")
                         .WithMany()
-                        .HasForeignKey("DoiBongThangId");
+                        .HasForeignKey("DoiDauThangId");
 
                     b.HasOne("Domain.Entities.GiaiDauBangDau", "GiaiDauBangDau")
                         .WithMany()
                         .HasForeignKey("GiaiDauBangDauId");
 
-                    b.HasOne("Domain.GiaiDau", "GiaiDau")
+                    b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
                         .WithMany()
                         .HasForeignKey("GiaiDauId");
 
@@ -864,11 +944,11 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("GiaiDauVongDauId");
 
-                    b.Navigation("DoiBong1");
+                    b.Navigation("DoiDauNha");
 
-                    b.Navigation("DoiBong2");
+                    b.Navigation("DoiDauKhach");
 
-                    b.Navigation("DoiBongThang");
+                    b.Navigation("DoiDauThang");
 
                     b.Navigation("GiaiDau");
 
@@ -909,7 +989,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.VongDau", b =>
                 {
-                    b.HasOne("Domain.GiaiDau", null)
+                    b.HasOne("Domain.Entities.GiaiDau", null)
                         .WithMany("VongDaus")
                         .HasForeignKey("GiaiDauId");
                 });
@@ -965,9 +1045,18 @@ namespace Domain.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.DoiBong", b =>
+            modelBuilder.Entity("Domain.Entities.DoiDau", b =>
                 {
                     b.Navigation("ThanhVienGiaiDaus");
+                });
+
+            modelBuilder.Entity("Domain.Entities.GiaiDau", b =>
+                {
+                    b.Navigation("BangDaus");
+
+                    b.Navigation("DoiDaus");
+
+                    b.Navigation("VongDaus");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranDau", b =>
@@ -975,15 +1064,6 @@ namespace Domain.Migrations
                     b.Navigation("TranDauGhiBans");
 
                     b.Navigation("TranDauThePhats");
-                });
-
-            modelBuilder.Entity("Domain.GiaiDau", b =>
-                {
-                    b.Navigation("BangDaus");
-
-                    b.Navigation("DoiBongs");
-
-                    b.Navigation("VongDaus");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Models.GiaiDau;
+using Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Web.Controllers;
 

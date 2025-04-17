@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
-using Application.Models.DoiDau;
-using Application.Models.GiaiDau;
+using Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Web.Controllers;
 
 namespace Web.Areas.Admin.Controllers
@@ -16,19 +16,48 @@ namespace Web.Areas.Admin.Controllers
             _doiDauService = doiDauService;
         }
 
-        public IActionResult Index(int idGiaiDau)
+        public IActionResult Index()
         {
-            return View();
+            try
+            {
+                var result = _doiDauService.GetAllDoiDau(IdGiaiDau);
+                return View(result);
+            }
+            catch(Exception e)
+            {
+                return View("Error");
+            }
         }
-        public IActionResult ChiTiet(int id)
+        public async Task<IActionResult> ChiTiet(int id)
         {
-            return View();
+            try
+            {
+                var result = await _doiDauService.ChiTietDoiDau(id);
+                return View(result);
+            }
+            catch (Exception e)
+            {
+                return View("Error");
+            }
         }
         public IActionResult ThemMoi()
         {
             return View();
         }
-        public async Task<JsonResult> SuaDoi(int id, DoiDauModel model)
+        public async Task<JsonResult> ThemMoi(DoiDauThanhVienModel model)
+        {
+            bool check = false;
+            try
+            {
+                check = await _doiDauService.TaoDoiDau(IdGiaiDau, model);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Json(check);
+        }
+        public async Task<JsonResult> SuaDoiDau(int id, DoiDauThanhVienModel model)
         {
             bool check = false;
             try

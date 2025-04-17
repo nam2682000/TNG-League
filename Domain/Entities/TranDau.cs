@@ -6,30 +6,33 @@ namespace Domain.Entities;
 
 public class TranDau : BaseEntity<int>
 {
+    public int? Vong { get; set; }
     public int? GiaiDauId { get; set; }
     public int? GiaiDauBangDauId { get; set; }
-    public int? GiaiDauVongDauId { get; set; }
-    public int? DoiBong1Id { get; set; }
-    public int? DoiBong2Id { get; set; }
-    public int? DoiBongThangId { get; set; }
+    public int? GiaiDauVongDauChiTietId { get; set; }
+    public int? DoiDauNhaId { get; set; }
+    public int? DoiDauKhachId { get; set; }
+    public int? DoiDauThangId { get; set; }
+    public int? SoBanGhiDoiNha { get; set; }
+    public int? SoBanGhiDoiKhach { get; set; }
+    public string? LinkBienBan { get; set; }
     public string DiaDiem { get; set; } = string.Empty;
     public DateTime? NgayBatDau { get; set; }
     public DateTime? NgayKetThuc { get; set; }
     public bool IsLuotVe { get; set; }
 
-    [ForeignKey("DoiBong1Id")]
-    public DoiBong? DoiBong1 { get; set; } 
+    [ForeignKey("DoiDauNhaId")]
+    public DoiDau? DoiDauNha { get; set; } 
 
-    [ForeignKey("DoiBong2Id")]
-    public DoiBong? DoiBong2 { get; set; }
+    [ForeignKey("DoiDauKhachId")]
+    public DoiDau? DoiDauKhach { get; set; }
 
-    [ForeignKey("DoiBongThangId")]
-    public DoiBong? DoiBongThang { get; set; }
+    [ForeignKey("DoiDauThangId")]
+    public DoiDau? DoiDauThang { get; set; }
     public GiaiDauBangDau? GiaiDauBangDau { get; set; } 
-    public GiaiDauVongDau? GiaiDauVongDau { get; set; }
+    public GiaiDauVongDauChiTiet? GiaiDauVongDauChiTiet { get; set; }
     public TrangThai? TrangThaiTuyChinh { get; set; }
     public GiaiDau? GiaiDau { get; set; }
-
     [NotMapped]
     public TrangThai TrangThai
     {

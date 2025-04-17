@@ -11,5 +11,5 @@ public class GiaiDauVongDau : BaseEntity<int>
     public int Order { get; set; }
     public GiaiDau? GiaiDau { get; set; }
     public VongDau? VongDau { get; set; }
-
+    public List<GiaiDauVongDauChiTiet> GiaiDauVongDauChiTiets { get; set; } = new List<GiaiDauVongDauChiTiet>();
 }

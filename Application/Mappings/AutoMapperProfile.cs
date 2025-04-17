@@ -1,6 +1,6 @@
-﻿using Application.Models.GiaiDau;
+﻿using Application.Models;
 using AutoMapper;
-using Domain;
+using Domain.Entities;
 
 namespace Application.Mappings
 {
@@ -9,6 +9,9 @@ namespace Application.Mappings
         public AutoMapperProfile()
         {
             CreateMap<GiaiDau, GiaiDauModel>().ReverseMap();
+            CreateMap<DoiDau, DoiDauModel>().ReverseMap();
+            CreateMap<ThanhVien, ThanhVienGiaiDauModel>().ReverseMap();
+            CreateMap<ThanhVienGiaiDau, ThanhVienGiaiDauModel>().ReverseMap();
             //CreateMap<UserRegisterRequest, User>().ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => PasswordHasher.HashPassword(src.Password))).ReverseMap();
         }
     }

@@ -28,8 +28,26 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     //}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<TranDau>()
+            .HasOne(t => t.DoiDauNha)
+            .WithMany(d => d.TranDauNha)
+            .HasForeignKey(t => t.DoiDauNhaId)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<TranDau>()
+            .HasOne(t => t.DoiDauKhach)
+            .WithMany(d => d.TranDauKhach)
+            .HasForeignKey(t => t.DoiDauKhachId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TranDau>()
+            .HasOne(t => t.DoiDauThang)
+            .WithMany(d => d.TranDauThang)
+            .HasForeignKey(t => t.DoiDauThangId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        base.OnModelCreating(modelBuilder);
+        
         //// Giữ Cascade delete cho mối quan hệ với GiaiDau
         //modelBuilder.Entity<ThanhVienGiaiDau>()
         //    .HasOne(x => x.GiaiDau)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250417035221_InnitDb")]
-    partial class InnitDb
+    [Migration("20250420145924_adDB")]
+    partial class adDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,21 +132,29 @@ namespace Domain.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("GiaiDauId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LinkAnhDoi")
-                        .IsRequired()
+                    b.Property<string>("LinkAvatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NgayThanhLap")
+                    b.Property<DateTime?>("NgayThanhLap")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("SoDienThoai")
+                        .HasColumnType("int");
 
                     b.Property<string>("TenDoiDau")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenNguoiLienHe")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -180,7 +188,6 @@ namespace Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GioiTinh")
@@ -198,8 +205,7 @@ namespace Domain.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LinkAvatarGiaiDau")
-                        .IsRequired()
+                    b.Property<string>("LinkAvatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("NgayBatDau")
@@ -211,7 +217,7 @@ namespace Domain.Migrations
                     b.Property<int>("SoBangDau")
                         .HasColumnType("int");
 
-                    b.Property<int>("SoDienThoai")
+                    b.Property<int?>("SoDienThoai")
                         .HasColumnType("int");
 
                     b.Property<int>("SoDoi")
@@ -231,7 +237,6 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenNguoiLienHe")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TrangThaiTuyChinh")
@@ -320,6 +325,37 @@ namespace Domain.Migrations
                     b.ToTable("GiaiDauVongDaus");
                 });
 
+            modelBuilder.Entity("Domain.Entities.GiaiDauVongDauChiTiet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GiaiDauVongDauId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TenVongDau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GiaiDauVongDauId");
+
+                    b.ToTable("GiaiDauVongDauChiTiets");
+                });
+
             modelBuilder.Entity("Domain.Entities.HinhThucThiDau", b =>
                 {
                     b.Property<int>("Id")
@@ -362,7 +398,6 @@ namespace Domain.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GioiTinh")
@@ -375,10 +410,13 @@ namespace Domain.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LinkAvatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("NgaySinh")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Sdt")
+                    b.Property<int?>("Sdt")
                         .HasColumnType("int");
 
                     b.Property<string>("SoCCCD")
@@ -405,9 +443,6 @@ namespace Domain.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DoiDauId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DoiDauId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("GiaiDauId")
@@ -439,8 +474,6 @@ namespace Domain.Migrations
 
                     b.HasIndex("DoiDauId");
 
-                    b.HasIndex("DoiDauId1");
-
                     b.HasIndex("GiaiDauId");
 
                     b.HasIndex("ThanhVienId");
@@ -467,10 +500,10 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoiDauNhaId")
+                    b.Property<int?>("DoiDauKhachId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoiDauKhachId")
+                    b.Property<int?>("DoiDauNhaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DoiDauThangId")
@@ -482,7 +515,7 @@ namespace Domain.Migrations
                     b.Property<int?>("GiaiDauId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GiaiDauVongDauId")
+                    b.Property<int?>("GiaiDauVongDauChiTietId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
@@ -491,11 +524,20 @@ namespace Domain.Migrations
                     b.Property<bool>("IsLuotVe")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LinkBienBan")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("NgayBatDau")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayKetThuc")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("SoBanGhiDoiKhach")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SoBanGhiDoiNha")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TrangThaiTuyChinh")
                         .HasColumnType("int");
@@ -503,11 +545,14 @@ namespace Domain.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Vong")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("DoiDauNhaId");
-
                     b.HasIndex("DoiDauKhachId");
+
+                    b.HasIndex("DoiDauNhaId");
 
                     b.HasIndex("DoiDauThangId");
 
@@ -515,7 +560,7 @@ namespace Domain.Migrations
 
                     b.HasIndex("GiaiDauId");
 
-                    b.HasIndex("GiaiDauVongDauId");
+                    b.HasIndex("GiaiDauVongDauChiTietId");
 
                     b.ToTable("TranDaus");
                 });
@@ -552,7 +597,7 @@ namespace Domain.Migrations
 
                     b.HasIndex("TranDauId");
 
-                    b.ToTable("TranDauGhis");
+                    b.ToTable("TranDauGhiBans");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranDauThePhat", b =>
@@ -672,6 +717,9 @@ namespace Domain.Migrations
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<int>("LoaiVong")
+                        .HasColumnType("int");
 
                     b.Property<int>("SoDoi")
                         .HasColumnType("int");
@@ -878,26 +926,28 @@ namespace Domain.Migrations
                     b.Navigation("VongDau");
                 });
 
+            modelBuilder.Entity("Domain.Entities.GiaiDauVongDauChiTiet", b =>
+                {
+                    b.HasOne("Domain.Entities.GiaiDauVongDau", "GiaiDau")
+                        .WithMany("GiaiDauVongDauChiTiets")
+                        .HasForeignKey("GiaiDauVongDauId");
+
+                    b.Navigation("GiaiDau");
+                });
+
             modelBuilder.Entity("Domain.Entities.ThanhVienGiaiDau", b =>
                 {
                     b.HasOne("Domain.Entities.DoiDau", "DoiDaus")
-                        .WithMany()
-                        .HasForeignKey("DoiDauId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Domain.Entities.DoiDau", null)
                         .WithMany("ThanhVienGiaiDaus")
-                        .HasForeignKey("DoiDauId1");
+                        .HasForeignKey("DoiDauId");
 
                     b.HasOne("Domain.Entities.GiaiDau", "GiaiDau")
                         .WithMany()
-                        .HasForeignKey("GiaiDauId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("GiaiDauId");
 
                     b.HasOne("Domain.Entities.ThanhVien", "ThanhVien")
                         .WithMany()
-                        .HasForeignKey("ThanhVienId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ThanhVienId");
 
                     b.HasOne("Domain.Entities.VaiTro", "VaiTro")
                         .WithMany()
@@ -920,17 +970,20 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.TranDau", b =>
                 {
-                    b.HasOne("Domain.Entities.DoiDau", "DoiDauNha")
-                        .WithMany()
-                        .HasForeignKey("DoiDauNhaId");
-
                     b.HasOne("Domain.Entities.DoiDau", "DoiDauKhach")
-                        .WithMany()
-                        .HasForeignKey("DoiDauKhachId");
+                        .WithMany("TranDauKhach")
+                        .HasForeignKey("DoiDauKhachId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.DoiDau", "DoiDauNha")
+                        .WithMany("TranDauNha")
+                        .HasForeignKey("DoiDauNhaId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.DoiDau", "DoiDauThang")
-                        .WithMany()
-                        .HasForeignKey("DoiDauThangId");
+                        .WithMany("TranDauThang")
+                        .HasForeignKey("DoiDauThangId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.GiaiDauBangDau", "GiaiDauBangDau")
                         .WithMany()
@@ -940,13 +993,13 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("GiaiDauId");
 
-                    b.HasOne("Domain.Entities.GiaiDauVongDau", "GiaiDauVongDau")
+                    b.HasOne("Domain.Entities.GiaiDauVongDauChiTiet", "GiaiDauVongDauChiTiet")
                         .WithMany()
-                        .HasForeignKey("GiaiDauVongDauId");
-
-                    b.Navigation("DoiDauNha");
+                        .HasForeignKey("GiaiDauVongDauChiTietId");
 
                     b.Navigation("DoiDauKhach");
+
+                    b.Navigation("DoiDauNha");
 
                     b.Navigation("DoiDauThang");
 
@@ -954,7 +1007,7 @@ namespace Domain.Migrations
 
                     b.Navigation("GiaiDauBangDau");
 
-                    b.Navigation("GiaiDauVongDau");
+                    b.Navigation("GiaiDauVongDauChiTiet");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranDauGhiBan", b =>
@@ -1048,6 +1101,12 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Entities.DoiDau", b =>
                 {
                     b.Navigation("ThanhVienGiaiDaus");
+
+                    b.Navigation("TranDauKhach");
+
+                    b.Navigation("TranDauNha");
+
+                    b.Navigation("TranDauThang");
                 });
 
             modelBuilder.Entity("Domain.Entities.GiaiDau", b =>
@@ -1057,6 +1116,11 @@ namespace Domain.Migrations
                     b.Navigation("DoiDaus");
 
                     b.Navigation("VongDaus");
+                });
+
+            modelBuilder.Entity("Domain.Entities.GiaiDauVongDau", b =>
+                {
+                    b.Navigation("GiaiDauVongDauChiTiets");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranDau", b =>

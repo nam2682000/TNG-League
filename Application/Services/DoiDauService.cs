@@ -22,22 +22,61 @@ public class DoiDauService : IDoiDauService
     public async Task<DoiDauThanhVienModel> ChiTietDoiDau(int idDoiDau)
     {
         var data = await _context.DoiDaus.AsNoTracking().
-            Include(m => m.ThanhVienGiaiDaus).FirstOrDefaultAsync(m => m.Id == idDoiDau);
+            Include(m => m.ThanhVienGiaiDaus)
+            .ThenInclude(m=>m.ThanhVien)
+            .FirstOrDefaultAsync(m => m.Id == idDoiDau);
         if (data is null)
             throw new Exception("Không tìm thấy đội đấu");
         DoiDauThanhVienModel result = new DoiDauThanhVienModel
         {
             DoiDauModel = _mapper.Map<DoiDauModel>(data),
-            ThanhVienGiaiDaus = _mapper.Map<List<ThanhVienGiaiDauModel>>(data.ThanhVienGiaiDaus),
+            ThanhVienGiaiDaus =  data.ThanhVienGiaiDaus.Select(m=> new ThanhVienGiaiDauModel
+            {
+                Id = m.Id,
+                HoTen = m.ThanhVien!.HoTen,
+                TenThiDau = m.TenThiDau,
+                SoAo = m.SoAo,
+                LinkAvatar = m.ThanhVien.LinkAvatar,
+                SoCCCD = m.ThanhVien.SoCCCD,
+                Sdt = m.ThanhVien.Sdt.Value,
+                DoiDauId = m.DoiDauId,
+                VaiTroId = m.VaiTroId,
+                ViTriId = m.ViTriId
+            }).ToList(),
         };
         return result;
     }
 
     public async Task<List<DoiDauModel>> GetAllDoiDau(int idGiaiDau)
     {
-        var data = await _context.DoiDaus.AsNoTracking().Where(m=>m.GiaiDauId == idGiaiDau).ToListAsync();
-        var result = _mapper.Map<List<DoiDauModel>>(data);
-        return result;
+        var data = await _context.DoiDaus
+        .Include(m => m.ThanhVienGiaiDaus)
+        .Include(m => m.TranDauThang)
+        .Include(m => m.TranDauNha)
+        .Include(m => m.TranDauKhach)
+        .AsNoTracking()
+        .Where(m => m.GiaiDauId == idGiaiDau)
+        .Select(m => new DoiDauModel
+        {
+            Id = m.Id,
+            TenDoiDau = m.TenDoiDau,
+            LinkAvatar = m.LinkAvatar,
+            SoThanhVien = m.ThanhVienGiaiDaus.Count,
+            SoTranThang = m.TranDauThang.Count,
+            SoTranThua = m.TranDauNha
+                .Where(t => t.DoiDauThangId != null && t.DoiDauThangId != m.Id)
+                .Concat(m.TranDauKhach
+                    .Where(t => t.DoiDauThangId != null && t.DoiDauThangId != m.Id))
+                .Count(),
+            SoTranHoa = m.TranDauNha
+                .Where(t => t.DoiDauThangId == null)
+                .Concat(m.TranDauKhach
+                    .Where(t => t.DoiDauThangId == null))
+                .Count(),
+            SoTranDaChoi = m.TranDauKhach.Count + m.TranDauNha.Count,
+        })
+        .ToListAsync();
+        return data;
     }
 
     public async Task<bool> SuaDoiDau(int idDoi, DoiDauThanhVienModel model)
@@ -45,69 +84,77 @@ public class DoiDauService : IDoiDauService
         using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
+            #region  Cập nhật đội bóng
             var doiDau = await _context.DoiDaus.FindAsync(idDoi);
-            if (doiDau is null)
-            {
-                throw new Exception("Không tìm thấy đội đấu");
-            }
+            if (doiDau is null) throw new Exception("Không tìm thấy đội đấu");
+
             _mapper.Map(model.DoiDauModel, doiDau);
             _context.DoiDaus.Update(doiDau);
 
-            #region xử lý với các thành viên mới được thêm
-            var modelAdd = model.ThanhVienGiaiDaus.Where(m => m.IsNew).ToList();
-            var thanhVienAdds = _mapper.Map<List<ThanhVien>>(modelAdd);
-            int countThanhVien = thanhVienAdds.Count;
-            for (int i = 0; i < countThanhVien; i++)
+            // 2. Thêm thành viên mới
+            var modelAdds = model.ThanhVienGiaiDaus.Where(m => m.IsNew).ToList();
+            var thanhVienAdds = _mapper.Map<List<ThanhVien>>(modelAdds);
+
+            for (int i = 0; i < modelAdds.Count; i++)
             {
-                if (modelAdd[i]?.FileAvatar != null)
+                if (modelAdds[i].FileAvatar is not null)
                 {
-                    thanhVienAdds[i].LinkAvatar = await _fileService.SaveFileAsync(modelAdd[i]?.FileAvatar!);
+                    thanhVienAdds[i].LinkAvatar = await _fileService.SaveFileAsync(modelAdds[i].FileAvatar!);
                 }
             }
 
             _context.ThanhViens.AddRange(thanhVienAdds);
+            await _context.SaveChangesAsync(); // để có được Id cho mỗi ThanhVien
 
             var thanhVienGiaiDauAdds = thanhVienAdds.Select((tv, i) =>
             {
-                var thanhVienGiai = _mapper.Map<ThanhVienGiaiDau>(modelAdd[i]);
+                var thanhVienGiai = _mapper.Map<ThanhVienGiaiDau>(modelAdds[i]);
                 thanhVienGiai.ThanhVienId = tv.Id;
                 thanhVienGiai.DoiDauId = doiDau.Id;
                 return thanhVienGiai;
             }).ToList();
+
             _context.ThanhVienGiaiDaus.AddRange(thanhVienGiaiDauAdds);
             #endregion
 
-            #region xử lý các thành viên bị sửa
-            var modelUpdate = model.ThanhVienGiaiDaus.Where(m => m.IsChanged).ToList();
-            var ids = modelUpdate.Select(m => m.Id).ToArray();
+            #region Cập nhật thành viên cũ
+            var modelUpdates = model.ThanhVienGiaiDaus.Where(m => m.IsChanged && !m.IsNew).ToList();
+            var updateIds = modelUpdates.Select(m => m.Id).ToList();
 
-            var thanhVienUpdate = await _context.ThanhVienGiaiDaus
-                .Include(m => m.ThanhVien)
-                .Where(m => ids.Contains(m.Id)).ToListAsync();
+            var thanhVienUpdates = await _context.ThanhVienGiaiDaus
+                .Include(x => x.ThanhVien)
+                .Where(x => updateIds.Contains(x.Id))
+                .ToListAsync();
 
-            int countThanhVienUpdate = thanhVienUpdate.Count;
-            var modelUpdateDict = modelUpdate.ToDictionary(x => x.Id);
-            foreach (var tv in thanhVienUpdate)
+            var modelUpdateDict = modelUpdates?.ToDictionary(x => x.Id);
+
+            foreach (var tvgd in thanhVienUpdates)
             {
-                if (modelUpdateDict.TryGetValue(tv.Id, out var update))
+                if (modelUpdateDict != null && modelUpdateDict.TryGetValue(tvgd.Id, out var updatedModel))
                 {
-                    _mapper.Map(update, tv);
-                    _mapper.Map(update, tv.ThanhVien);
-                    if (update.FileAvatar != null)
+                    tvgd.TenThiDau = updatedModel.TenThiDau;
+                    tvgd.SoAo = updatedModel.SoAo;
+                    tvgd.ViTriId = updatedModel.ViTriId;
+                    tvgd.VaiTroId = updatedModel.VaiTroId;
+
+                    tvgd.ThanhVien!.SoCCCD = updatedModel.SoCCCD;
+                    tvgd.ThanhVien!.HoTen = updatedModel.HoTen;
+                    tvgd.ThanhVien!.Sdt = updatedModel.Sdt;
+                    if (updatedModel.FileAvatar is not null)
                     {
-                        tv.ThanhVien!.LinkAvatar = await _fileService.SaveFileAsync(update.FileAvatar);
+                        tvgd.ThanhVien!.LinkAvatar = await _fileService.SaveFileAsync(updatedModel.FileAvatar);
                     }
                 }
             }
             #endregion
 
+            // 4. Lưu & commit transaction
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // Rollback nếu có lỗi
             await transaction.RollbackAsync();
             return false;
         }
@@ -125,16 +172,14 @@ public class DoiDauService : IDoiDauService
 
             var thanhViens = _mapper.Map<List<ThanhVien>>(model.ThanhVienGiaiDaus);
 
-            var thanhVienModelDict = model.ThanhVienGiaiDaus.ToDictionary(m => m.Id);
-            foreach (var tv in thanhViens)
+            int countThanhVien = thanhViens.Count;
+            for (int i = 0; i < countThanhVien; i++)
             {
-                if(thanhVienModelDict.TryGetValue(tv.Id, out var modelAdd))
+                if (model.ThanhVienGiaiDaus[i].FileAvatar != null)
                 {
-                    if(modelAdd.FileAvatar != null)
-                    {
-                        tv.LinkAvatar = await _fileService.SaveFileAsync(modelAdd.FileAvatar!);
-                    }
+                    thanhViens[i].LinkAvatar = await _fileService.SaveFileAsync(model.ThanhVienGiaiDaus[i].FileAvatar!);
                 }
+
             }
             _context.ThanhViens.AddRange(thanhViens);
             await _context.SaveChangesAsync();
@@ -157,7 +202,13 @@ public class DoiDauService : IDoiDauService
             return false;
         }
     }
-
+    public async Task<bool> XoaThanhVien(int id)
+    {
+       var thanhVien = await _context.ThanhVienGiaiDaus.FindAsync(id);
+       if(thanhVien is null) throw new Exception("Không tìm thấy thành viên");
+       _context.ThanhVienGiaiDaus.Remove(thanhVien);
+       return await _context.SaveChangesAsync() > 0;
+    }
     public Task<bool> XoaDoiDau(int idDoi)
     {
         throw new NotImplementedException();

@@ -82,12 +82,12 @@
 
     .avatar-img {
         width: 8rem !important;
-        height:8rem !important;
+        height: 8rem !important;
         object-fit: cover;
         background: white;
     }
 
-    .avatar-img-doi{
+    .avatar-img-doi {
         width: 11rem !important;
         height: 11rem !important;
         object-fit: cover;
@@ -134,9 +134,9 @@
                         <div class="col s12 m3 l3  center-align">
                             <div class="avatar-container">
                                 <!-- Avatar preview -->
-                                <img :src="avatarPreview || '/default-avatar.png'"
-                                    class="avatar-img-doi circle responsive-img z-depth-2" />
-
+                                <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" 
+                                :src="formDoi.linkAvatar || '/images/no-image.jpeg'"
+                                class="avatar-img-doi circle responsive-img z-depth-2" />
                                 <!-- Upload button -->
                                 <div class="upload-btn">
                                     <label>
@@ -150,7 +150,7 @@
                             <div class="row">
                                 <div class="col s12 l6">
                                     <div class="input-field">
-                                        <input id="tenDoi" type="text" class="validate" v-model="form.tenDoi"
+                                        <input id="tenDoi" type="text" class="validate" v-model="formDoi.tenDoiDau"
                                             required />
                                         <label for="tenDoi" class="active">Tên đội *</label>
                                     </div>
@@ -158,7 +158,7 @@
                                 <div class="col s12 l6">
                                     <div class="input-field">
                                         <input id="tenNguoiLienHe" type="text" class="validate"
-                                            v-model="form.tenNguoiLienHe" />
+                                            v-model="formDoi.tenNguoiLienHe" />
                                         <label for="tenNguoiLienHe" class="active">Tên người liên hệ</label>
                                     </div>
                                 </div>
@@ -168,14 +168,14 @@
                                     <!-- Số điện thoại -->
                                     <div class="input-field">
                                         <input id="soDienThoai" type="tel" class="validate"
-                                            v-model="form.soDienThoai" />
+                                            v-model="formDoi.soDienThoai" />
                                         <label for="soDienThoai" class="active">Số Điện Thoại</label>
                                     </div>
                                 </div>
                                 <div class="col s12 l6">
                                     <!-- Địa điểm -->
                                     <div class="input-field">
-                                        <input id="email" type="email" class="validate" v-model="form.email" />
+                                        <input id="email" type="email" class="validate" v-model="formDoi.email" />
                                         <label for="email" class="active">Email</label>
                                     </div>
                                 </div>
@@ -213,30 +213,29 @@
                             <div class="col s12 l6 center-align">
                                 <div class="avatar-container">
                                     <!-- Avatar preview -->
-                                    <img :src="thanhVien.avatar || '/default-avatar.png'"
+                                    <img :src="thanhVien.linkAvatar || '/images/no-image.jpeg'"
                                         class="avatar-img circle responsive-img z-depth-2" />
                                     <!-- Upload button -->
                                     <div class="upload-btn">
                                         <label>
                                             <i class="material-icons">photo_camera</i>
-                                            <input type="file" v-on:change="handleAvatarThanhVien(thanhVien, $event)" accept="image/*"
-                                                hidden />
+                                            <input type="file" v-on:change="handleAvatarThanhVien(thanhVien, $event)"
+                                                accept="image/*" hidden />
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col s12 l6">
-                                <input placeholder="Họ tên" type="text" class="validate" v-model="thanhVien.hoTen" />
-                                <input placeholder="Tên thi đấu" type="text" class="validate"
-                                    v-model="thanhVien.tenThiDau" />
+                                <input placeholder="Họ tên" type="text" class="validate" v-model="thanhVien.hoTen" required />
+                                <input placeholder="Tên thi đấu" type="text" class="validate" v-model="thanhVien.tenThiDau" required />
                                 <input placeholder="Số áo" type="number" class="validate" v-model="thanhVien.soAo" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 l6">
                                 <input placeholder="Số điện thoại" type="number" class="validate"
-                                    v-model="thanhVien.soDienThoai" />
-                                <select v-model="thanhVien.vaiTro" class="validate" required>
+                                    v-model="thanhVien.sdt" />
+                                <select v-model="thanhVien.vaiTroId" class="validate" required>
                                     <option value="1">Vận động viên</option>
                                     <option value="2">Huấn luyện viên</option>
                                     <option value="3">Quản lý</option>
@@ -246,7 +245,7 @@
                             <div class="col s12 l6">
                                 <input placeholder="Số CCCD" type="number" class="validate"
                                     v-model="thanhVien.soCCCD" />
-                                <select v-model="thanhVien.viTri" class="validate" required>
+                                <select v-model="thanhVien.viTriId" class="validate" required>
                                     <option value="1">Tiền đạo</option>
                                     <option value="2">Tiền vệ</option>
                                     <option value="3">Hậu vệ</option>
@@ -257,8 +256,8 @@
                         </div>
                     </div>
                     <div class="card-action center">
-                        <a class="detail-btn red btn-small modal-trigger"
-                           v-on:click="openConfirmModal(thanhVien)" href="#confirmModal">
+                        <a class="detail-btn red btn-small modal-trigger" v-on:click="openConfirmModal(thanhVien)"
+                            href="#confirmModal">
                             <i class="material-icons">delete</i>
                         </a>
                     </div>
@@ -279,91 +278,127 @@
     </div>
 </div>
 <script>
-    const { createApp, ref, onMounted, reactive, nextTick } = Vue;
+    const { createApp, ref, onMounted, reactive, nextTick, watchEffect } = Vue;
     const app = createApp({
         setup() {
+            const formDoi = reactive({});
             const formThanhViens = reactive([]);
-            const form = ref({
-                soNguoiTrenSan: 7,
-                gioiTinh: "Nam",
-                phone: '',
-                hinhThucThiDauId: 1,
-                location: '',
-                avatarFile: null,
-                isAuToSetup: false,
-                soDoi: 2,
-                soDoiVaoVongTrong: 2,
-                diemThang: 3,
-                diemHoa: 1,
-                diemThua: 0,
-            });
+            const selectedItem = ref(null);
 
-            const selectedItem = ref(null)
-
-            const avatarPreview = ref("/images/no-image.jpeg");
-            //const tournament = ref(tournamentData); // Dữ liệu từ Razor
+            // Hàm để xác định sự thay đổi
+            const toString = (obj) => {
+                const { isChanged, _original, fileAvatar, ...rest } = obj;
+                return JSON.stringify(rest)
+            }
+            const isChanges = (obj) => {
+                return obj._original !== toString(obj);
+            };
 
             const handleAvatarChange = (event) => {
                 const file = event.target.files[0];
                 if (file && file.type.startsWith('image/')) {
-                    form.value.avatarFile = file;
+                    formDoi.fileAvatar = file;
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        avatarPreview.value = e.target.result;
+                        formDoi.linkAvatar = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
             };
 
-            const handleAvatarThanhVien = (thanhVien,event) => {
+            const handleAvatarThanhVien = (thanhVien, event) => 
+            {
                 const file = event.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    thanhVien.avatarFile = file;
+                if (file && file.type.startsWith('image/')) 
+                {
+                    thanhVien.fileAvatar = file;
                     const reader = new FileReader();
-                    reader.onload = (e) => {
-                        thanhVien.avatar = e.target.result;
+                    reader.onload = (e) => 
+                    {
+                        thanhVien.linkAvatar = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
             };
-
-            
 
             const openConfirmModal = (item) => {
-                selectedItem.value = item
+                selectedItem.value = item;
+            };
+
+
+            const xuLyForm = (form, isSauKhiLuu = false)=>{
+                if(isSauKhiLuu){
+                    form.forEach((obj) => {
+                        obj._original = toString(obj)
+                        obj.isChanged = false; // Đặt lại cờ isChanged thành false
+                    });
+                }
+                else{
+                    const data = [];
+                    form.forEach((obj) => {
+                        const {_original, ...rest } = obj;
+                        data.push(rest);
+                    });
+                    return data;
+                }
             }
 
-            const handleSubmit = () => {
-                console.log('Form Data:', form.value);
-                alert('Giải đấu đã được gửi!');
-                // TODO: Gửi form về server bằng fetch/AJAX nếu cần
+            const handleSubmit = async () => {
+                const thanhVienGiaiDaus = xuLyForm(formThanhViens);
+                const check = await postFormData("Admin/Doi/TaoDoiDau",
+                    {doiDauModel: formDoi, thanhVienGiaiDaus}
+                );
+                if(check){
+                    window.location.href = `${window.baseApiUrl}Admin/Doi/Index`;
+                }
+                else{
+                    thongBao("Thêm thất bại","error");
+                }
             };
 
             const handleDelete = () => {
-                console.log(selectedItem.value)
-                if (!selectedItem.value) return
-                const index = formThanhViens.findIndex(x => x.id === selectedItem.value.id);
+                console.log(selectedItem.value);
+                if (!selectedItem.value) return;
+                const index = formThanhViens.findIndex((x) => x.id === selectedItem.value.id);
                 if (index !== -1) {
                     formThanhViens.splice(index, 1);
                 }
                 selectedItem.value = null;
-            }
+            };
+
             const addNewRow = () => {
-                const id = formThanhViens.length+1;
-                formThanhViens.unshift({id:id, hoTen: null, tenThiDau: '', soAo: '', soDienThoai: '', soCCCD: '', viTri: 1, vaiTro: 1, avatar : "/images/no-image.jpeg", avatarFile : null});
+                const newObj =
+                {
+                    tenThiDau: "",
+                    soAo: null,
+                    thanhVienId: null,
+                    giaiDauId: null,
+                    doiDauId: null,
+                    viTriId: 1,
+                    vaiTroId: 1,
+                    hoTen: null,
+                    gioiTinh: "Nam", // có thể dùng enum như 0, 1 tùy bạn xử lý
+                    ngaySinh: null,
+                    email: null,
+                    soCCCD: null,
+                    sdt: null,
+                    linkAvatar: null,
+                    FileAvatar: null,
+                    isNew: true,
+                    isChanged: false
+                };
+                // Đặt giá trị ban đầu cho _original
+                formThanhViens.unshift(newObj);
+
                 nextTick(() => {
                     const elems = document.querySelectorAll('select');
                     M.FormSelect.init(elems);
                 });
-            }
+            };
 
-            onMounted(() => {
-
-            });
             return {
-                form,
+                formDoi,
                 formThanhViens,
-                avatarPreview,
                 handleAvatarChange,
                 handleAvatarThanhVien,
                 handleSubmit,

@@ -47,8 +47,8 @@ namespace Application.Services
             if (model.FileAvatar != null)
             {
                 // Lưu file và thay thế file cũ nếu có
-                string link = await _fileService.SaveFileAsync(model.FileAvatar, "images", giaiDau.LinkAvatarGiaiDau);
-                giaiDau.LinkAvatarGiaiDau = link;
+                string link = await _fileService.SaveFileAsync(model.FileAvatar, "images", giaiDau.LinkAvatar);
+                giaiDau.LinkAvatar = link;
             }
 
             return await _context.SaveChangesAsync() > 0;
@@ -61,7 +61,7 @@ namespace Application.Services
             if (model.FileAvatar is not null)
             {
                 string link = await _fileService.SaveFileAsync(model.FileAvatar, "images");
-                giaiDau.LinkAvatarGiaiDau = link;
+                giaiDau.LinkAvatar = link;
             }
             _context.GiaiDaus.Add(giaiDau);
             return await _context.SaveChangesAsync() > 0;

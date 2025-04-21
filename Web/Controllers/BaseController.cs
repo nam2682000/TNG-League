@@ -5,10 +5,10 @@ namespace Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected int IdGiaiDau => GetIdGiaiDau();
-        private int GetIdGiaiDau()
+        protected int GiaiDauId => GetGiaiDauId();
+        private int GetGiaiDauId()
         {
-            var value = SessionHelper.GetIdGiaiDau(HttpContext.Session);
+            var value = SessionHelper.GiaiDauId(HttpContext.Session);
             return int.TryParse(value, out int result) ? result : 0;
         }
     }

@@ -36,7 +36,7 @@ public static class SessionHelper
     {
         session.SetString("idGiaiDau", idGiaiDau);
     }
-    public static string? GetIdGiaiDau(ISession session)
+    public static string? GiaiDauId(ISession session)
     {
         return session.GetString("idGiaiDau");
     }

@@ -9,5 +9,6 @@ namespace Application.Interfaces
         Task<bool> TaoDoiDau(int giaiDauId, DoiDauThanhVienModel model);
         Task<bool> SuaDoiDau(int idDoi, DoiDauThanhVienModel model);
         Task<bool> XoaDoiDau(int idDoi);
+        Task<bool> XoaThanhVien(int id);
     }
 }

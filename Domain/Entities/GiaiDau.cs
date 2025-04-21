@@ -6,10 +6,10 @@ namespace Domain.Entities;
 public class GiaiDau : BaseEntity<int>
 {
     public string TenGiaiDau { get; set; } = string.Empty;
-    public string LinkAvatarGiaiDau { get; set; } = string.Empty;
-    public string TenNguoiLienHe { get; set; } = string.Empty;
-    public int SoDienThoai { get; set; }
-    public string Email { get; set; } = string.Empty;
+    public string? LinkAvatar { get; set; }
+    public string? TenNguoiLienHe { get; set; }
+    public int? SoDienThoai { get; set; }
+    public string? Email { get; set; } = string.Empty;
     public GioiTinh GioiTinh { get; set; } = GioiTinh.Nam;
     public int SoNguoiTrenSan { get; set; }
     public bool IsAuToSetup { get; set; }

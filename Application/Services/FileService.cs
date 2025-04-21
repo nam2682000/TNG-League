@@ -38,7 +38,7 @@ class FileService : IFileService
         await newFile.CopyToAsync(stream);
 
         // Trả về đường dẫn tương đối
-        var relativePath = Path.Combine(subFolder, fileName).Replace("\\", "/");
+        var relativePath = Path.Combine("uploads", subFolder, fileName).Replace("\\", "/");
         return $"/{relativePath}";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Web.Controllers;
@@ -16,11 +17,11 @@ namespace Web.Areas.Admin.Controllers
             _doiDauService = doiDauService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var result = _doiDauService.GetAllDoiDau(IdGiaiDau);
+                var result = await _doiDauService.GetAllDoiDau(GiaiDauId);
                 return View(result);
             }
             catch(Exception e)
@@ -28,6 +29,8 @@ namespace Web.Areas.Admin.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
         public async Task<IActionResult> ChiTiet(int id)
         {
             try
@@ -44,12 +47,14 @@ namespace Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public async Task<JsonResult> ThemMoi(DoiDauThanhVienModel model)
+
+        [HttpPost]
+        public async Task<JsonResult> TaoDoiDau(DoiDauThanhVienModel model)
         {
             bool check = false;
             try
             {
-                check = await _doiDauService.TaoDoiDau(IdGiaiDau, model);
+                check = await _doiDauService.TaoDoiDau(GiaiDauId, model);
             }
             catch (Exception e)
             {
@@ -57,6 +62,8 @@ namespace Web.Areas.Admin.Controllers
             }
             return Json(check);
         }
+
+        [HttpPost]
         public async Task<JsonResult> SuaDoiDau(int id, DoiDauThanhVienModel model)
         {
             bool check = false;
@@ -70,7 +77,24 @@ namespace Web.Areas.Admin.Controllers
             }
             return Json(check);
         }
-        public async Task<JsonResult> XoaDoi(int id)
+
+        [HttpPost]
+        public async Task<JsonResult> XoaThanhVien(int id)
+        {
+            bool check = false;
+            try
+            {
+                check = await _doiDauService.XoaThanhVien(id);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Json(check);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> XoaDoiDau(int id)
         {
             bool check = false;
             try

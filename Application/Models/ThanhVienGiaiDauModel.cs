@@ -6,7 +6,7 @@ namespace Application.Models;
 public class ThanhVienGiaiDauModel
 {
     //ThanhVienGiaiDau
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public string TenThiDau { get; set; } = null!;
     public int SoAo { get; set; }
     public int? ThanhVienId { get; set; }

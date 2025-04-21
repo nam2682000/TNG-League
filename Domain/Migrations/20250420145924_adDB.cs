@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class InnitDb : Migration
+    public partial class adDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,9 +76,10 @@ namespace Domain.Migrations
                     HoTen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GioiTinh = table.Column<int>(type: "int", nullable: false),
                     NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SoCCCD = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sdt = table.Column<int>(type: "int", nullable: false),
+                    Sdt = table.Column<int>(type: "int", nullable: true),
+                    LinkAvatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDelete = table.Column<bool>(type: "bit", nullable: false)
@@ -235,10 +236,10 @@ namespace Domain.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenGiaiDau = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LinkAvatarGiaiDau = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TenNguoiLienHe = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SoDienThoai = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LinkAvatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TenNguoiLienHe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SoDienThoai = table.Column<int>(type: "int", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GioiTinh = table.Column<int>(type: "int", nullable: false),
                     SoNguoiTrenSan = table.Column<int>(type: "int", nullable: false),
                     IsAuToSetup = table.Column<bool>(type: "bit", nullable: false),
@@ -297,8 +298,11 @@ namespace Domain.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenDoiDau = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LinkAnhDoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NgayThanhLap = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LinkAvatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TenNguoiLienHe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SoDienThoai = table.Column<int>(type: "int", nullable: true),
+                    NgayThanhLap = table.Column<DateTime>(type: "datetime2", nullable: true),
                     GiaiDauId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -322,6 +326,7 @@ namespace Domain.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenVongDau = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SoDoi = table.Column<int>(type: "int", nullable: false),
+                    LoaiVong = table.Column<int>(type: "int", nullable: false),
                     GiaiDauId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -377,7 +382,6 @@ namespace Domain.Migrations
                     DoiDauId = table.Column<int>(type: "int", nullable: true),
                     ViTriId = table.Column<int>(type: "int", nullable: true),
                     VaiTroId = table.Column<int>(type: "int", nullable: true),
-                    DoiDauId1 = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDelete = table.Column<bool>(type: "bit", nullable: false)
@@ -389,25 +393,17 @@ namespace Domain.Migrations
                         name: "FK_ThanhVienGiaiDaus_DoiDaus_DoiDauId",
                         column: x => x.DoiDauId,
                         principalTable: "DoiDaus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_ThanhVienGiaiDaus_DoiDaus_DoiDauId1",
-                        column: x => x.DoiDauId1,
-                        principalTable: "DoiDaus",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ThanhVienGiaiDaus_GiaiDaus_GiaiDauId",
                         column: x => x.GiaiDauId,
                         principalTable: "GiaiDaus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ThanhVienGiaiDaus_ThanhViens_ThanhVienId",
                         column: x => x.ThanhVienId,
                         principalTable: "ThanhViens",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ThanhVienGiaiDaus_VaiTros_VaiTroId",
                         column: x => x.VaiTroId,
@@ -451,17 +447,43 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GiaiDauVongDauChiTiets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenVongDau = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GiaiDauVongDauId = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GiaiDauVongDauChiTiets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GiaiDauVongDauChiTiets_GiaiDauVongDaus_GiaiDauVongDauId",
+                        column: x => x.GiaiDauVongDauId,
+                        principalTable: "GiaiDauVongDaus",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TranDaus",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Vong = table.Column<int>(type: "int", nullable: true),
                     GiaiDauId = table.Column<int>(type: "int", nullable: true),
                     GiaiDauBangDauId = table.Column<int>(type: "int", nullable: true),
-                    GiaiDauVongDauId = table.Column<int>(type: "int", nullable: true),
+                    GiaiDauVongDauChiTietId = table.Column<int>(type: "int", nullable: true),
                     DoiDauNhaId = table.Column<int>(type: "int", nullable: true),
                     DoiDauKhachId = table.Column<int>(type: "int", nullable: true),
                     DoiDauThangId = table.Column<int>(type: "int", nullable: true),
+                    SoBanGhiDoiNha = table.Column<int>(type: "int", nullable: true),
+                    SoBanGhiDoiKhach = table.Column<int>(type: "int", nullable: true),
+                    LinkBienBan = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiaDiem = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgayBatDau = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NgayKetThuc = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -475,29 +497,32 @@ namespace Domain.Migrations
                 {
                     table.PrimaryKey("PK_TranDaus", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TranDaus_DoiDaus_DoiDauNhaId",
-                        column: x => x.DoiDauNhaId,
-                        principalTable: "DoiDaus",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_TranDaus_DoiDaus_DoiDauKhachId",
                         column: x => x.DoiDauKhachId,
                         principalTable: "DoiDaus",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TranDaus_DoiDaus_DoiDauNhaId",
+                        column: x => x.DoiDauNhaId,
+                        principalTable: "DoiDaus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TranDaus_DoiDaus_DoiDauThangId",
                         column: x => x.DoiDauThangId,
                         principalTable: "DoiDaus",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TranDaus_GiaiDauBangDaus_GiaiDauBangDauId",
                         column: x => x.GiaiDauBangDauId,
                         principalTable: "GiaiDauBangDaus",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TranDaus_GiaiDauVongDaus_GiaiDauVongDauId",
-                        column: x => x.GiaiDauVongDauId,
-                        principalTable: "GiaiDauVongDaus",
+                        name: "FK_TranDaus_GiaiDauVongDauChiTiets_GiaiDauVongDauChiTietId",
+                        column: x => x.GiaiDauVongDauChiTietId,
+                        principalTable: "GiaiDauVongDauChiTiets",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TranDaus_GiaiDaus_GiaiDauId",
@@ -507,7 +532,7 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TranDauGhis",
+                name: "TranDauGhiBans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -521,14 +546,14 @@ namespace Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TranDauGhis", x => x.Id);
+                    table.PrimaryKey("PK_TranDauGhiBans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TranDauGhis_ThanhVienGiaiDaus_ThanhVienGiaiDauId",
+                        name: "FK_TranDauGhiBans_ThanhVienGiaiDaus_ThanhVienGiaiDauId",
                         column: x => x.ThanhVienGiaiDauId,
                         principalTable: "ThanhVienGiaiDaus",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TranDauGhis_TranDaus_TranDauId",
+                        name: "FK_TranDauGhiBans_TranDaus_TranDauId",
                         column: x => x.TranDauId,
                         principalTable: "TranDaus",
                         principalColumn: "Id");
@@ -629,6 +654,11 @@ namespace Domain.Migrations
                 column: "HinhThucThiDauId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GiaiDauVongDauChiTiets_GiaiDauVongDauId",
+                table: "GiaiDauVongDauChiTiets",
+                column: "GiaiDauVongDauId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GiaiDauVongDaus_GiaiDauId",
                 table: "GiaiDauVongDaus",
                 column: "GiaiDauId");
@@ -642,11 +672,6 @@ namespace Domain.Migrations
                 name: "IX_ThanhVienGiaiDaus_DoiDauId",
                 table: "ThanhVienGiaiDaus",
                 column: "DoiDauId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ThanhVienGiaiDaus_DoiDauId1",
-                table: "ThanhVienGiaiDaus",
-                column: "DoiDauId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ThanhVienGiaiDaus_GiaiDauId",
@@ -669,24 +694,24 @@ namespace Domain.Migrations
                 column: "ViTriId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranDauGhis_ThanhVienGiaiDauId",
-                table: "TranDauGhis",
+                name: "IX_TranDauGhiBans_ThanhVienGiaiDauId",
+                table: "TranDauGhiBans",
                 column: "ThanhVienGiaiDauId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranDauGhis_TranDauId",
-                table: "TranDauGhis",
+                name: "IX_TranDauGhiBans_TranDauId",
+                table: "TranDauGhiBans",
                 column: "TranDauId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TranDaus_DoiDauNhaId",
-                table: "TranDaus",
-                column: "DoiDauNhaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TranDaus_DoiDauKhachId",
                 table: "TranDaus",
                 column: "DoiDauKhachId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TranDaus_DoiDauNhaId",
+                table: "TranDaus",
+                column: "DoiDauNhaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TranDaus_DoiDauThangId",
@@ -704,9 +729,9 @@ namespace Domain.Migrations
                 column: "GiaiDauId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranDaus_GiaiDauVongDauId",
+                name: "IX_TranDaus_GiaiDauVongDauChiTietId",
                 table: "TranDaus",
-                column: "GiaiDauVongDauId");
+                column: "GiaiDauVongDauChiTietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TranDauThePhats_ThanhVienGiaiDauId",
@@ -743,7 +768,7 @@ namespace Domain.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TranDauGhis");
+                name: "TranDauGhiBans");
 
             migrationBuilder.DropTable(
                 name: "TranDauThePhats");
@@ -776,10 +801,13 @@ namespace Domain.Migrations
                 name: "GiaiDauBangDaus");
 
             migrationBuilder.DropTable(
-                name: "GiaiDauVongDaus");
+                name: "GiaiDauVongDauChiTiets");
 
             migrationBuilder.DropTable(
                 name: "BangDaus");
+
+            migrationBuilder.DropTable(
+                name: "GiaiDauVongDaus");
 
             migrationBuilder.DropTable(
                 name: "VongDaus");

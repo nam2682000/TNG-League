@@ -46,7 +46,12 @@ body {}
     border: 3px solid #d2d3d4;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-
+.avatar-logo {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d2d3d4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 .mobile-text {
     padding: 3px;
 }
@@ -86,6 +91,14 @@ body {}
       transform: translateY(30px) scale(0.9);
     }
 
+    .toast-custom {
+        font-size: 1.2rem;
+        padding: 18px 24px;
+        position: fixed;
+        right: 10px; /* Đặt Toast cách mép phải một chút */
+        z-index: 9999;
+        height: fit-content;
+    }
 @media only screen and (max-width: 992px) {
     .logo-desktop {
         display: none !important;

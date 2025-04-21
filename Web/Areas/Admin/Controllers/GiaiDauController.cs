@@ -23,6 +23,8 @@ namespace Web.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [HttpPost]
         public async Task<JsonResult> ThemGiaiDau(GiaiDauModel model)
         {
             bool check = false;
@@ -34,6 +36,8 @@ namespace Web.Areas.Admin.Controllers
             }
             return Json(check);
         }
+
+        [HttpPost]
         public async Task<JsonResult> SuaGiaiDau(int id, GiaiDauModel model)
         {
             bool check = false;

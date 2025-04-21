@@ -3,19 +3,26 @@
     return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-async function apiGet(endpoint) {
-    const response = await fetch(window.baseApiUrl + endpoint, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            ...getAuthHeader()
-        }
-    });
-    if (!response.ok) throw new Error('GET API failed');
+async function handleResponse(response) {
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+    }
     return await response.json();
 }
 
-async function apiPost(endpoint, data) {
+async function get(endpoint) {
+    const response = await fetch(window.baseApiUrl + endpoint, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            ...getAuthHeader()
+        }
+    });
+    return handleResponse(response);
+}
+
+async function post(endpoint, data) {
     const response = await fetch(window.baseApiUrl + endpoint, {
         method: 'POST',
         headers: {
@@ -24,11 +31,10 @@ async function apiPost(endpoint, data) {
         },
         body: JSON.stringify(data)
     });
-    if (!response.ok) throw new Error('POST API failed');
-    return await response.json();
+    return handleResponse(response);
 }
 
-async function apiPut(endpoint, data) {
+async function put(endpoint, data) {
     const response = await fetch(window.baseApiUrl + endpoint, {
         method: 'PUT',
         headers: {
@@ -37,18 +43,48 @@ async function apiPut(endpoint, data) {
         },
         body: JSON.stringify(data)
     });
-    if (!response.ok) throw new Error('PUT API failed');
-    return await response.json();
+    return handleResponse(response);
 }
 
-async function apiDelete(endpoint) {
+async function delelete(endpoint) {
     const response = await fetch(window.baseApiUrl + endpoint, {
         method: 'DELETE',
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             ...getAuthHeader()
         }
     });
-    if (!response.ok) throw new Error('DELETE API failed');
-    return await response.json();
+    return handleResponse(response);
+}
+
+async function postFormData(endpoint, formData) {
+    const response = await fetch(window.baseApiUrl + endpoint, {
+        method: 'POST',
+        headers: {
+            ...getAuthHeader()
+        },
+        body: toFormData(formData)
+    });
+    return handleResponse(response);
+}
+
+function toFormData(obj, formData = new FormData(), parentKey = '') {
+    if (obj === null || obj === undefined) return formData;
+
+    if (typeof obj !== 'object' || obj instanceof File) {
+        formData.append(parentKey, obj);
+    } else if (Array.isArray(obj)) {
+        obj.forEach((item, index) => {
+            const key = parentKey ? `${parentKey}[${index}]` : index;
+            toFormData(item, formData, key);
+        });
+    } else {
+        Object.keys(obj).forEach(key => {
+            const value = obj[key];
+            const fullKey = parentKey ? `${parentKey}.${key}` : key;
+            toFormData(value, formData, fullKey);
+        });
+    }
+
+    return formData;
 }

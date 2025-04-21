@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Application.Models.DoiDauModel>
 <style>
     .team-card {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -10,7 +10,7 @@
         }
 
     .team-logo {
-        height: 100px;
+        height: 8rem;
     }
 
     .blue-header {
@@ -114,95 +114,38 @@
     </div>
 
     <div class="row">
-        <div class="col s12 m6 l3">
+        <div v-for="(doiDau, index) in doiDaus" :key="index" class="col s12 m6 l3">
             <div class="card team-card">
                 <div class="blue-header">
-                    <h6>Atletico Madrid</h6>
+                    <h6>{{doiDau.tenDoiDau}}</h6>
                 </div>
                 <div class="card-content center">
-                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
-                    <div><label>3 trận đã chơi</label></div>
+                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="doiDau.linkAvatar" class="avatar-logo team-logo" alt="Atletico Madrid">
+                    <div><label>{{doiDau.soTranDaChoi}} trận đã chơi</label></div>
                     <div>
-                        <span class="team-badge blue accent-2">2 Thắng</span>
-                        <span class="team-badge lime darken-3">1 Hòa</span>
-                        <span class="team-badge grey darken-1">0 Thua</span>
+                        <span class="team-badge blue accent-2">{{doiDau.soTranThang}} Thắng</span>
+                        <span class="team-badge lime darken-3">{{doiDau.soTranHoa}} Hòa</span>
+                        <span class="team-badge grey darken-1">{{doiDau.soTranThua}} Thua</span>
                     </div>
-                    <div><label>16 thành viên</label></div>
+                    <div><label>{{doiDau.soThanhVien}} thành viên</label></div>
                 </div>
                 <div class="card-action center">
-                    <a asp-area="Admin" asp-controller="Doi" asp-action="ChiTiet" asp-route-id="1" class="blue darken-3 btn">Chi tiết</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card team-card">
-                <div class="blue-header">
-                    <h6>Atletico Madrid</h6>
-                </div>
-                <div class="card-content center">
-                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
-                    <div><label>3 trận đã chơi</label></div>
-                    <div>
-                        <span class="team-badge blue accent-2">2 Thắng</span>
-                        <span class="team-badge lime darken-3">1 Hòa</span>
-                        <span class="team-badge grey darken-1">0 Thua</span>
-                    </div>
-                    <div><label>16 thành viên</label></div>
-                </div>
-                <div class="card-action center">
-                    <a asp-area="" asp-controller="Doi" asp-action="ChiTietDoi" asp-route-id="1" class="btn blue darken-3">Chi tiết</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card team-card">
-                <div class="blue-header">
-                    <h6>Atletico Madrid</h6>
-                </div>
-                <div class="card-content center">
-                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
-                    <div><label>3 trận đã chơi</label></div>
-                    <div>
-                        <span class="team-badge blue accent-2">2 Thắng</span>
-                        <span class="team-badge lime darken-3">1 Hòa</span>
-                        <span class="team-badge grey darken-1">0 Thua</span>
-                    </div>
-                    <div><label>16 thành viên</label></div>
-                </div>
-                <div class="card-action center">
-                    <a asp-area="" asp-controller="Doi" asp-action="ChiTietDoi" asp-route-id="1" class="btn blue darken-3">Chi tiết</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card team-card">
-                <div class="blue-header">
-                    <h6>Atletico Madrid</h6>
-                </div>
-                <div class="card-content center">
-                    <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" src="~/images//MU.png" class="team-logo" alt="Atletico Madrid">
-                    <div><label>3 trận đã chơi</label></div>
-                    <div>
-                        <span class="team-badge blue accent-2">2 Thắng</span>
-                        <span class="team-badge lime darken-3">1 Hòa</span>
-                        <span class="team-badge grey darken-1">0 Thua</span>
-                    </div>
-                    <div><label>16 thành viên</label></div>
-                </div>
-                <div class="card-action center">
-                    <a asp-area="" asp-controller="Doi" asp-action="ChiTietDoi" asp-route-id="1" class="btn blue darken-3">Chi tiết</a>
+                    <a :href="`/Admin/Doi/ChiTiet/${doiDau.id}`" class="blue darken-3 btn">Chi tiết</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    const { createApp, ref, onMounted } = Vue;
+    const data = @Html.Raw(Json.Serialize(Model));
+    const { createApp, ref, onMounted,reactive  } = Vue;
     const app = createApp({
         setup() {
+            const doiDaus = reactive(data);
+            console.log('data',data);
             onMounted(() => {
             });
-            return { };
+            return { doiDaus };
         }
     });
     app.mount('#admin_doi_index');

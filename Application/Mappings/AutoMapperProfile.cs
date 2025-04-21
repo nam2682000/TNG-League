@@ -12,6 +12,7 @@ namespace Application.Mappings
             CreateMap<DoiDau, DoiDauModel>().ReverseMap();
             CreateMap<ThanhVien, ThanhVienGiaiDauModel>().ReverseMap();
             CreateMap<ThanhVienGiaiDau, ThanhVienGiaiDauModel>().ReverseMap();
+            CreateMap<TranDau, TranDauAddModel>().ReverseMap();
             //CreateMap<UserRegisterRequest, User>().ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => PasswordHasher.HashPassword(src.Password))).ReverseMap();
         }
     }

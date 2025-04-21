@@ -1,4 +1,6 @@
-﻿namespace Application.Models;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Application.Models;
 
 public class LichThiDauModel
 {
@@ -11,12 +13,14 @@ public class LichThiDauModel
     public int? DoiDauNhaId { get; set; }
     public string TenDoiNha { get; set; } = string.Empty;
     public string LinkAvatarDoiNha { get; set; } = string.Empty;
+    public IFormFile? LinkFileDoiNha { get; set; }
     public int? SoBanGhiDoiNha { get; set; }
 
     //đội khách
     public int? DoiDauKhachId { get; set; }
     public string TenDoKhach { get; set; } = string.Empty;
     public string LinkAvatarDoiKhach { get; set; } = string.Empty;
+    public IFormFile? LinkFileDoiKhach { get; set; }
     public int? SoBanGhiDoiKhach { get; set; }
 }
 

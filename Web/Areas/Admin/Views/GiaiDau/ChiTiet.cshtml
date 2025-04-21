@@ -1,6 +1,7 @@
 ﻿<style>
     .giaiDau-logo {
         width: 15rem !important;
+        height: 15rem !important;
         border-radius: 50%;
         object-fit: cover;
         border: 3px solid #ddd;
@@ -21,7 +22,7 @@
                     <div class="row">
                         <div class="col s12 l4 m3 center-align">
                             <!-- Avatar -->
-                            <img v-if="avatarPreview" :src="avatarPreview"
+                            <img onerror="this.onerror=null; this.src='/images/no-image.jpeg';" :src="form.linkAvatar|| '/images/no-image.jpeg'"
                                 class="giaiDau-logo avatar-preview circle responsive-img" />
                             <div class="file-field input-field d-flex justify-content-center">
                                 <div class="btn blue w-100">
@@ -98,16 +99,19 @@
 
                         <transition name="slide-up">
                             <div v-show="form.hinhThucThiDauId == 1" class="row">
+
                                 <div class="input-field col s12 l4 m4">
-                                    <select v-on:change v-model="form.soDoiVaoVongTrong" class="validate" required>
+                                    <select v-model="form.soDoiVaoVongTrong"
+                                            class="validate"
+                                            name="soDoiVaoVongTrong">
+                                        <option value="" disabled selected>Chọn số đội</option>
                                         <option value="2">2</option>
                                         <option value="4">4</option>
                                         <option value="8">8</option>
-                                        <option value="8">16</option>
+                                        <option value="16">16</option>
                                     </select>
-                                    <label for="soDoiVaoVongTrong">Số đội vào vòng trong *</label>
+                                    <label>Số đội vào vòng trong *</label>
                                 </div>
-
                                 <div class="input-field col s12 l4 m4">
                                     <input id="diemThang" type="number" min="0" max="5" class="validate"
                                         v-model="form.diemThang" required />
@@ -205,18 +209,26 @@
     const app = createApp({
         setup() {
             const form = ref({
+                tenGiaiDau: "",
+                linkAvatar: "",
+                fileAvatar: null, // Sẽ là File khi người dùng chọn ảnh
+                tenNguoiLienHe: "",
+                soDienThoai: 0,
+                email: "",
+                gioiTinh: "Nam", // Hoặc kiểu enum tương ứng nếu có
                 soNguoiTrenSan: 7,
-                gioiTinh: "Nam",
-                phone: '',
-                hinhThucThiDauId: 1,
-                location: '',
-                avatarFile: null,
                 isAuToSetup: false,
                 soDoi: 2,
-                soDoiVaoVongTrong: 2,
+                hinhThucThiDauId: 1,
+                soDoiVaoVongTrong: 0,
                 diemThang: 3,
                 diemHoa: 1,
                 diemThua: 0,
+                soBangDau: 0,
+                soVongDau: 0,
+                trangThai: 0, // Enum dạng số hoặc string tuỳ hệ thống backend
+                trangThaiTuyChinh: null,
+                isMain: false
             });
 
             const selectedItem = ref(null)
@@ -227,7 +239,6 @@
                 { tenVong: 'Bán kết', soDoi: 4, order: 3, isShow: true, isDefault: true },
                 { tenVong: 'Chung kết', soDoi: 2, order: 4, isShow: true, isDefault: true },
             ])
-            const avatarPreview = ref("/images/no-image.jpeg");
             //const tournament = ref(tournamentData); // Dữ liệu từ Razor
 
             const isShowRound = computed(() => {
@@ -258,10 +269,10 @@
             const handleAvatarChange = (event) => {
                 const file = event.target.files[0];
                 if (file && file.type.startsWith('image/')) {
-                    form.value.avatarFile = file;
+                    form.value.fileAvatar = file;
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        avatarPreview.value = e.target.result;
+                        form.value.linkAvatar = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
@@ -271,10 +282,15 @@
                 selectedItem.value = item
             }
 
-            const handleSubmit = () => {
+            const handleSubmit = async () => {
                 console.log('Form Data:', form.value);
-                alert('Giải đấu đã được gửi!');
-                // TODO: Gửi form về server bằng fetch/AJAX nếu cần
+                const check = await postFormData("Admin/GiaiDau/ThemGiaiDau",{model:form.value})
+                if(check){
+                    window.location.href = `${window.baseApiUrl}Admin/GiaiDau/Index`;
+                }
+                else{
+                    thongBao("Tạo thất bại","error");
+                }
             };
 
             const handleDelete = () => {
@@ -300,7 +316,6 @@
             return {
                 form,
                 vongDau,
-                avatarPreview,
                 handleAvatarChange,
                 handleSubmit,
                 handleDelete,

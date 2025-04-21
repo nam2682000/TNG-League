@@ -2,6 +2,7 @@
 using Application.Models;
 using AutoMapper;
 using Domain;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
@@ -9,12 +10,12 @@ namespace Application.Services
     public class TranDauService : ITranDauService
     {
         private readonly AppDbContext _context;
-
-        public TranDauService(AppDbContext context)
+        private readonly IMapper _mapper;
+        public TranDauService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-
 
         public async Task<bool> CapNhatChiTietTranDau(int id, TranDauUpdate model)
         {
@@ -79,11 +80,11 @@ namespace Application.Services
                 }).ToList(),
                 DoiDauNhaId = i.DoiDauNha.Id,
                 TenDoiNha = i.DoiDauNha.TenDoiDau,
-                LinkAvatarDoiNha = i.DoiDauNha.LinkAnhDoi,
+                LinkAvatarDoiNha = i.DoiDauNha.LinkAvatar,
                 SoBanGhiDoiNha = i.SoBanGhiDoiNha,
                 DoiDauKhachId = i.DoiDauKhach.Id,
                 TenDoiKhach = i.DoiDauKhach.TenDoiDau,
-                LinkAvatarDoiKhach = i.DoiDauKhach.LinkAnhDoi,
+                LinkAvatarDoiKhach = i.DoiDauKhach.LinkAvatar,
                 SoBanGhiDoiKhach = i.SoBanGhiDoiKhach,
 
             })
@@ -93,9 +94,9 @@ namespace Application.Services
             return data;
         }
 
-        public Task<List<LichThiDauModel>> GetLichThiDau(int? vongDauId, int? doiDauId)
+        public Task<List<LichThiDauModel>> GetLichThiDau(int giaiDauId, int? vongDauId = null, int? doiDauId = null)
         {
-            var query = _context.TranDaus.AsNoTracking().AsQueryable();
+            var query = _context.TranDaus.AsNoTracking().Where(m=>m.GiaiDauId == giaiDauId);
             if(vongDauId !=null){
                 query = query.Where(m=>m.GiaiDauVongDauChiTietId == vongDauId);
             }
@@ -106,12 +107,12 @@ namespace Application.Services
                 TenDoiNha = m.DoiDauNha.TenDoiDau,
                 DoiDauNhaId = m.DoiDauNhaId,
                 SoBanGhiDoiNha = m.SoBanGhiDoiNha,
-                LinkAvatarDoiNha = m.DoiDauNha.LinkAnhDoi,
+                LinkAvatarDoiNha = m.DoiDauNha.LinkAvatar,
                 
                 TenDoKhach = m.DoiDauKhach.TenDoiDau,
                 DoiDauKhachId = m.DoiDauKhachId,
                 SoBanGhiDoiKhach = m.SoBanGhiDoiKhach,
-                LinkAvatarDoiKhach = m.DoiDauKhach.LinkAnhDoi,
+                LinkAvatarDoiKhach = m.DoiDauKhach.LinkAvatar,
 
                 NgayBatDau = m.NgayBatDau,
                 NgayKetThuc = m.NgayKetThuc,
@@ -119,9 +120,23 @@ namespace Application.Services
             }).ToListAsync();
         }
 
-        public Task<bool> SuaSuKien(int id, ThanhVienSuKienModel model)
+        public async Task<bool> SuaSuKien(int id, ThanhVienSuKienModel model)
         {
-            throw new NotImplementedException();
+            if(model.IsGhiBan){
+                var ghiBan = await _context.TranDauGhiBans.FindAsync(id);
+                if(ghiBan is null) throw new Exception("Không tìm thấy sự kiện");
+                ghiBan.ThanhVienGiaiDauId = model.ThanhVienId;
+                ghiBan.ThoiGianGhiBan = model.ThoiGian;
+            }
+            else{
+                var thePhat = await _context.TranDauThePhats.FindAsync(id);
+                if(thePhat is null) throw new Exception("Không tìm thấy sự kiện");
+                thePhat.IsTheDo = model.IsTheDo;
+                thePhat.IsTheVang = model.IsTheVang;
+                thePhat.ThanhVienGiaiDauId = model.ThanhVienId;
+                thePhat.ThoiGianPhat = model.ThoiGian;
+            }
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> ThemSuKien(int idTranDau, ThanhVienSuKienModel model)
@@ -145,9 +160,21 @@ namespace Application.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> ThemTranDau(List<TranDauAddModel> models)
+        public async Task<bool> ThemTranDau(int giaiDauId, List<TranDauAddModel> models)
         {
-            throw new NotImplementedException();
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try{
+                var tranDaus = _mapper.Map<List<TranDau>>(models);
+                tranDaus.ForEach(m => m.GiaiDauId = giaiDauId);
+                _context.TranDaus.AddRange(tranDaus);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch(Exception e){
+                await transaction.RollbackAsync();
+                return false;
+            }
         }
 
         public async Task<bool> XoaSuKien(bool IsGhiBan,bool IsThePhat,int id)
@@ -167,9 +194,12 @@ namespace Application.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> XoaTranDau(int id)
+        public async Task<bool> XoaTranDau(int id)
         {
-            throw new NotImplementedException();
+            var tranDau = await _context.TranDaus.FindAsync(id);
+            if(tranDau is null) throw new Exception("Không tìm thấy trận đấu");
+            _context.TranDaus.Remove(tranDau);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
